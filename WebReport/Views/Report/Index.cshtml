@@ -1,8 +1,11 @@
-﻿
+﻿@*@model List<Repost>*@
+@*@{
+        ViewData["Title"] = "Index";
+    }*@
 @{
-    ViewData["Title"] = "Index";
-}
+    Layout = "_Layout";
 
+}
 <div class="row mx-0" style="padding-bottom: 0px; ">
     <div class="col p-md-0">
         <ol class="breadcrumb">
@@ -26,21 +29,21 @@
                     <div class="col-md-12 row">
                         <div class="col-md-4 mb-3">
                             <div class="form-group row">
-                                <label class="col-form-label col-lg-3" for="Name">
+                                <label class="col-form-label col-lg-3" for="Department">
                                     Tên chi nhánh
                                 </label>
                                 <div class="col-lg-9">
-                                    <input type="text" class="form-control" placeholder="Tên chi nhánh" id="Name" name="Name" onchange="onSearch()">
+                                    <input type="text" class="form-control" placeholder="Tên chi nhánh" id="Department" name="Department" onchange="onSearch()">
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-4 mb-3">
                             <div class="form-group row">
-                                <label class="col-form-label col-lg-3" for="Name">
+                                <label class="col-form-label col-lg-3" for="Branch">
                                     Phòng ban
                                 </label>
                                 <div class="col-lg-9">
-                                    <input type="text" class="form-control" placeholder="Phòng ban" id="Name" name="Name" onchange="onSearch()">
+                                    <input type="text" class="form-control" placeholder="Phòng ban" id="Branch" name="Branch" onchange="onSearch()">
                                 </div>
                             </div>
                         </div>
@@ -56,21 +59,21 @@
                         </div>
                         <div class="col-md-4 mb-3">
                             <div class="form-group row">
-                                <label class="col-form-label col-lg-3" for="Name">
+                                <label class="col-form-label col-lg-3" for="ToDate">
                                     Từ ngày
                                 </label>
                                 <div class="col-lg-9">
-                                    <input type="date" class="form-control" id="Name" name="Name" onchange="onSearch()">
+                                    <input type="date" class="form-control" id="ToDate" name="ToDate" onchange="onSearch()">
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-4 mb-3">
                             <div class="form-group row">
-                                <label class="col-form-label col-lg-3" for="Name">
+                                <label class="col-form-label col-lg-3" for="FromDate">
                                     Đến ngày
                                 </label>
                                 <div class="col-lg-9">
-                                    <input type="date" class="form-control" id="Name" name="Name" onchange="onSearch()">
+                                    <input type="date" class="form-control" id="FromDate" name="FromDate" onchange="onSearch()">
                                 </div>
                             </div>
                         </div>
@@ -112,3 +115,7 @@
     </div>
 </div>
 
+@section Scripts{
+    <script src="~/js/constant.js" asp-append-version="true"></script>
+    <script src="~/js/Report.js" type="text/javascript" asp-append-version="true"></script>
+}
