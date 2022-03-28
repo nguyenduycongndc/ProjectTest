@@ -1,34 +1,49 @@
-﻿$(function () {
-    $.ajaxSetup({
-        beforeSend: function (xhr) {
-            var rd = Math.floor((Math.random() * 9999999) + 1);
-            xhr.setRequestHeader('Authorization', getSessionToken());
-            xhr.setRequestHeader('Accept-Language', 'vi-VN');
-            xhr.setRequestHeader('Loading-Id', rd);
-            showLoading();
-        },
-        complete: function (xhr, status, error) {
-            if (xhr.status == 401)
-                swal("Unauthorized!", "Bạn cần phải đăng nhập vào hệ thống!", "warning");
-                //toastr.error("Dữ liệu đầu vào hoặc thông tin tài khoản không hợp lệ!", "Lỗi!", { progressBar: true });
-            else if (xhr.status == 404)
-                //swal("Not found!", "Không tìm thấy đối tượng để xử lý!", "warning");
-                toastr.error("Không tìm thấy đối tượng để xử lý!", "Lỗi!", { progressBar: true });
-            else if (xhr.status == 500)
-                //swal("Internal Server Error!", "Có lỗi xảy ra trong quá trình xử lý!", "warning");
-                toastr.error("Có lỗi xảy ra trong quá trình xử lý!", "Lỗi!", { progressBar: true });
-            else if (xhr.status == 400)
-                //swal("Lỗi dữ liệu!", "Dữ liệu đầu vào hoặc thông tin tài khoản không hợp lệ!", "warning");
-                toastr.error("Dữ liệu đầu vào hoặc thông tin tài khoản không hợp lệ!", "Lỗi!", { progressBar: true });
-            //else if (xhr.status != 200)
-            //    swal(error + "!", "Có lỗi trong quá trình xử lý!", "error");
-        }
-    });
+﻿////$(function () {
+////    $.ajaxSetup({
+////        beforeSend: function (xhr) {
+////            var rd = Math.floor((Math.random() * 9999999) + 1);
+////            xhr.setRequestHeader('Authorization', getSessionToken());
+////            xhr.setRequestHeader('Accept-Language', 'vi-VN');
+////            xhr.setRequestHeader('Loading-Id', rd);
+////            showLoading();
+////        },
+////        complete: function (xhr, status, error) {
+////            if (xhr.status == 401)
+////                swal("Unauthorized!", "Bạn cần phải đăng nhập vào hệ thống!", "warning");
+////                //toastr.error("Dữ liệu đầu vào hoặc thông tin tài khoản không hợp lệ!", "Lỗi!", { progressBar: true });
+////            else if (xhr.status == 404)
+////                //swal("Not found!", "Không tìm thấy đối tượng để xử lý!", "warning");
+////                toastr.error("Không tìm thấy đối tượng để xử lý!", "Lỗi!", { progressBar: true });
+////            else if (xhr.status == 500)
+////                //swal("Internal Server Error!", "Có lỗi xảy ra trong quá trình xử lý!", "warning");
+////                toastr.error("Có lỗi xảy ra trong quá trình xử lý!", "Lỗi!", { progressBar: true });
+////            else if (xhr.status == 400)
+////                //swal("Lỗi dữ liệu!", "Dữ liệu đầu vào hoặc thông tin tài khoản không hợp lệ!", "warning");
+////                toastr.error("Dữ liệu đầu vào hoặc thông tin tài khoản không hợp lệ!", "Lỗi!", { progressBar: true });
+////            //else if (xhr.status != 200)
+////            //    swal(error + "!", "Có lỗi trong quá trình xử lý!", "error");
+////        }
+////    });
 
-    $(document).ajaxStop(function () {
-        hideLoading();
-    });
-})
+////    $(document).ajaxStop(function () {
+////        hideLoading();
+////    });
+////})
+function showLoading() {
+    $('#preloader').css('display', 'block');
+}
+function hideLoading() {
+    setTimeout(function () {
+        var keys = Object.keys(localStorage);
+        var isOk = true;
+        for (var i = 0; i < keys.length; i++) {
+            if (keys[i].startsWith('loading'))
+                isOk = false;
+        }
+        if (isOk)
+            $('#preloader').css('display', 'none');
+    }, 500);
+}
 function getSessionToken() {
     if (sessionStorage['SessionToken'] != undefined)
         return 'Bearer ' + sessionStorage['SessionToken'];

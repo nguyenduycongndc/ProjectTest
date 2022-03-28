@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\pjtest\\WebReport\\WebReport\\WebReport.csproj": {}
+    "D:\\projectTest\\ProjectTest\\WebReport\\WebReport.csproj": {}
   },
   "projects": {
-    "D:\\pjtest\\WebReport\\WebReport\\WebReport.csproj": {
+    "D:\\projectTest\\ProjectTest\\WebReport\\WebReport.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\pjtest\\WebReport\\WebReport\\WebReport.csproj",
+        "projectUniqueName": "D:\\projectTest\\ProjectTest\\WebReport\\WebReport.csproj",
         "projectName": "WebReport",
-        "projectPath": "D:\\pjtest\\WebReport\\WebReport\\WebReport.csproj",
-        "packagesPath": "C:\\Users\\congnd\\.nuget\\packages\\",
-        "outputPath": "D:\\pjtest\\WebReport\\WebReport\\obj\\",
+        "projectPath": "D:\\projectTest\\ProjectTest\\WebReport\\WebReport.csproj",
+        "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
+        "outputPath": "D:\\projectTest\\ProjectTest\\WebReport\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\congnd\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [

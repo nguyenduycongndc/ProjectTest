@@ -29,21 +29,21 @@
                     <div class="col-md-12 row">
                         <div class="col-md-4 mb-3">
                             <div class="form-group row">
-                                <label class="col-form-label col-lg-3" for="Department">
+                                <label class="col-form-label col-lg-3" for="Branch">
                                     Tên chi nhánh
                                 </label>
                                 <div class="col-lg-9">
-                                    <input type="text" class="form-control" placeholder="Tên chi nhánh" id="Department" name="Department" onchange="onSearch()">
+                                    <input type="text" class="form-control" placeholder="Tên chi nhánh" id="Branch" name="Branch" onchange="onSearch()">
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-4 mb-3">
                             <div class="form-group row">
-                                <label class="col-form-label col-lg-3" for="Branch">
+                                <label class="col-form-label col-lg-3" for="Department">
                                     Phòng ban
                                 </label>
                                 <div class="col-lg-9">
-                                    <input type="text" class="form-control" placeholder="Phòng ban" id="Branch" name="Branch" onchange="onSearch()">
+                                    <input type="text" class="form-control" placeholder="Phòng ban" id="Department" name="Department" onchange="onSearch()">
                                 </div>
                             </div>
                         </div>
@@ -90,32 +90,35 @@
                         </div>*@
                 </div>
             </form>
-            @*<div class="table-responsive custom-table-scroll ">
-                    <table id="unitTypeTable" class="table table-striped table-bordered zero-configuration" style="width:100%">
-                        <thead class="contain-header-custom m-gray">
-                            <tr>
-                                <th class="number1" style="text-align: center">STT</th>
-                                <th class="number2" style="text-align: center">kiểu</th>
-                                <th class="number3" style="text-align: center">trạng thái</th>
-                                <th class="number4" style="text-align: center">miêu tả</th>
-                                <th id="OptionUnitType" style="text-align: center">Lựa chọn</th>
-                            </tr>
-                        </thead>
-                        <tbody class="contain-tbody-custom">
-                        </tbody>
-                    </table>
+            <div class="table-responsive custom-table-scroll ">
+                <table id="reportTable" class="table table-striped table-bordered zero-configuration" style="width:100%">
+                    <thead class="contain-header-custom m-gray">
+                        <tr>
+                            @*<th class="number1" style="text-align: center">STT</th>*@
+                            <th class="number2" style="text-align: center">Tên chi nhánh</th>
+                            <th class="number3" style="text-align: center">Phòng ban</th>
+                            <th class="number4" style="text-align: center">Họ tên nhân viên</th>
+                            <th class="number5" style="text-align: center">Ngày</th>
+                            <th id="OptionReport" style="text-align: center">Lựa chọn</th>
+                        </tr>
+                    </thead>
+                    <tbody class="contain-tbody-custom">
+                    </tbody>
+                </table>
+            </div>
+            <div class="row">
+                <div class="col-md-7"></div>
+                <div class="col-md-5">
+                    <partial name="_Pagination" />
                 </div>
-                <div class="row">
-                    <div class="col-md-7"></div>
-                    <div class="col-md-5">
-                        <partial name="_Pagination" />
-                    </div>
-                </div>*@
+            </div>
         </div>
     </div>
 </div>
 
 @section Scripts{
+    <script src="~/js/host.js" asp-append-version="true"></script>
+    <script src="~/js/api.construct.js" asp-append-version="true"></script>
     <script src="~/js/constant.js" asp-append-version="true"></script>
     <script src="~/js/Report.js" type="text/javascript" asp-append-version="true"></script>
 }

@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using WebReport.DataAccess;
 using WebReport.ExecuteModels;
 using WebReport.Models;
+using WebReport.Repositories;
 
 namespace WebReport.Controllers
 {
@@ -17,9 +18,12 @@ namespace WebReport.Controllers
     public class ReportController : Controller
     {
         private readonly MyDbContext _dbContext;
-        public ReportController(MyDbContext dbContext)
+        protected readonly IUnitOfWork _uow;
+
+        public ReportController(MyDbContext dbContext, IUnitOfWork uow)
         {
             _dbContext = dbContext;
+            _uow = uow;
         }
         public IActionResult Index()
         {
@@ -35,17 +39,32 @@ namespace WebReport.Controllers
                 var obj = JsonSerializer.Deserialize<RepostSearchModel>(jsonData);
                 Expression<Func<Repost, bool>> filter = c => (string.IsNullOrEmpty(obj.name) || c.Name.ToLower().Contains(obj.name.ToLower()))
                                                     && (string.IsNullOrEmpty(obj.department) || c.Department.ToLower().Contains(obj.department.ToLower()))
+                                                    && ((obj.todate == null) || c.date >= obj.todate)
+                                                    && ((obj.fromdate == null) || c.date <= obj.fromdate)
                                                     && (string.IsNullOrEmpty(obj.branch) || c.Branch.ToLower().Contains(obj.branch.ToLower()));
 
-                var data = await _dbContext.Reposts.FindAsync(filter);
-                //var report = data.Select(a => new RepostModel()
-                //{
-                //    id = a.Id,
-                //    name = a.Name,
-                //    department = a.Department,
-                //    branch = a.Branch,
-                //});
-                return View(data);
+                //var data = await _dbContext.Reposts.ToListAsync();
+                var data = _uow.Repository<Repost>().Find(filter);
+                IEnumerable<Repost> dt = data;
+                var count = dt.Count();
+                if (count == 0)
+                {
+                    return Ok("");
+                }
+
+                if (obj.StartNumber >= 0 && obj.PageSize > 0)
+                {
+                    data = data.Skip(obj.StartNumber).Take(obj.PageSize);
+                }
+                var report = data.Select(a => new RepostModel()
+                {
+                    id = a.Id,
+                    name = a.Name,
+                    department = a.Department,
+                    branch = a.Branch,
+                    date = a.date,
+                });
+                return Ok(report);
             }
             catch (Exception ex)
             {

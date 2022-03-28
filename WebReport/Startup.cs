@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebReport.DataAccess;
+using WebReport.Repositories;
 
 namespace WebReport
 {
@@ -26,6 +27,7 @@ namespace WebReport
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<MyDbContext>(options => options.UseMySql(Configuration.GetConnectionString("MySQL"), MySqlServerVersion.LatestSupportedServerVersion));
+            services.AddScoped<IUnitOfWork>(x => new UnitOfWork(x.GetRequiredService<MyDbContext>()));
             services.AddControllersWithViews();
         }
 
