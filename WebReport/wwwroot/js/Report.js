@@ -1,10 +1,20 @@
 ﻿function onSearch() {
+    var convert_todate = new Date($('#ToDate').val() + ',' +"0000:00:00").getTime() / 1000;
+    var convert_fromdate = new Date($('#FromDate').val() + ',' + "0000:00:00").getTime() / 1000;
+    //var convert_todate = Date.parse($('#ToDate').val()).toString();
+    //var index_todate = convert_todate.lastIndexOf("000");
+    //var sub_todate = convert_todate.substring(index_todate,0)
+    //var convert_fromdate = Date.parse($('#FromDate').val()).toString();
+    //var index_fromdate = convert_fromdate.lastIndexOf("000");
+    //var sub_fromdate = convert_fromdate.substring(index_fromdate,0)
     var obj = {
         'name': $('#Name').val().trim(),
-        'department': $('#Department').val(),
-        'branch': $('#Branch').val(),
-        'todate': Date.parse($('#ToDate').val()),
-        'fromdate': Date.parse($('#FromDate').val()),
+        'department': $('#Department').val().trim(),
+        'branch': $('#Branch').val().trim(),
+        'todate': convert_todate,
+        'fromdate': convert_fromdate,
+        //'todate': parseInt(sub_todate),
+        //'fromdate': parseInt(sub_fromdate),
         'page_size': parseInt($("#cbPageSize").val()),
         'start_number': (parseInt($("#txtCurrentPage").val()) - 1) * parseInt($("#cbPageSize").val())
     }
@@ -18,10 +28,10 @@ function fnSearchSuccess(rspn) {
     showLoading();
     if (rspn !== undefined && rspn !== null) {
         var tbBody = $('#reportTable tbody');
-        //$("#reportTable").dataTable().fnDestroy();
+        $("#reportTable").dataTable().fnDestroy();
         tbBody.html('');
-        for (var i = 0; i < rspn.length; i++) {
-            var obj = rspn[i];
+        for (var i = 0; i < rspn.data.length; i++) {
+            var obj = rspn.data[i];
             var dateconvert = new Date(parseInt(obj.date + "000")).toLocaleDateString();
             var html = '<tr>' +
                 //'<td class="text-center"></td>' +
@@ -74,7 +84,7 @@ function fnSearchSuccess(rspn) {
         hideLoading();
     } else if (rspn == "") {
         var tbBody = $('#reportTable tbody');
-        //$("#reportTable").dataTable().fnDestroy();
+        $("#reportTable").dataTable().fnDestroy();
         tbBody.html('');
 
         var page_size = (parseInt($("#txtCurrentPage").val()) - 1) * parseInt($("#cbPageSize").val())

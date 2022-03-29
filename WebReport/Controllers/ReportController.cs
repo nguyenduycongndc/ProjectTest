@@ -49,7 +49,7 @@ namespace WebReport.Controllers
                 var count = dt.Count();
                 if (count == 0)
                 {
-                    return Ok("");
+                    return Ok(new { code = "1", msg = "success", data = "", total = count });
                 }
 
                 if (obj.StartNumber >= 0 && obj.PageSize > 0)
@@ -64,7 +64,7 @@ namespace WebReport.Controllers
                     branch = a.Branch,
                     date = a.date,
                 });
-                return Ok(report);
+                return Ok(new { code = "1", msg = "success", data = report, total = count });
             }
             catch (Exception ex)
             {
