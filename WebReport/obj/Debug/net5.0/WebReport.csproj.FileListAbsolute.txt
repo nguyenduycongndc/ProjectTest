@@ -601,3 +601,5 @@ D:\pjtest\Report\WebReport\obj\Debug\net5.0\WebReport.dll
 D:\pjtest\Report\WebReport\obj\Debug\net5.0\ref\WebReport.dll
 D:\pjtest\Report\WebReport\obj\Debug\net5.0\WebReport.pdb
 D:\pjtest\Report\WebReport\obj\Debug\net5.0\WebReport.genruntimeconfig.cache
+D:\pjtest\Report\WebReport\bin\Debug\net5.0\EPPlus.dll
+D:\pjtest\Report\WebReport\bin\Debug\net5.0\Microsoft.IO.RecyclableMemoryStream.dll

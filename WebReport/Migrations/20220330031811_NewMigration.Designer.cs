@@ -9,8 +9,8 @@ using WebReport.DataAccess;
 namespace WebReport.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20220329101103_newMigration")]
-    partial class newMigration
+    [Migration("20220330031811_NewMigration")]
+    partial class NewMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -106,7 +106,6 @@ namespace WebReport.Migrations
                         .HasColumnType("varchar(256)");
 
                     b.Property<string>("pinyin")
-                        .IsRequired()
                         .HasMaxLength(612)
                         .HasColumnType("varchar(612)");
 
@@ -114,7 +113,6 @@ namespace WebReport.Migrations
                         .HasColumnType("double");
 
                     b.Property<string>("real_name")
-                        .IsRequired()
                         .HasMaxLength(64)
                         .HasColumnType("varchar(64)");
 
@@ -128,7 +126,6 @@ namespace WebReport.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("subject_photo")
-                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)");
 

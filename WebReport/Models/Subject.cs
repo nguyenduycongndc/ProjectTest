@@ -38,12 +38,12 @@ namespace WebReport.Models
         [JsonPropertyName("email")]
         [Column(TypeName = "varchar")]
         [StringLength(64)]
-        public char? email { get; set; }
+        public string email { get; set; }
 
         [JsonPropertyName("password_hash")]
         [Column(TypeName = "varchar")]
         [StringLength(256)]
-        public char? password_hash { get; set; }
+        public string password_hash { get; set; }
 
         [JsonPropertyName("password_reseted")]
         public byte? password_reseted { get; set; }//tinyint
@@ -52,13 +52,13 @@ namespace WebReport.Models
         [JsonPropertyName("real_name")]
         [Column(TypeName = "varchar")]
         [StringLength(64)]
-        public char real_name { get; set; }
+        public string real_name { get; set; }
 
         [Required]
         [JsonPropertyName("pinyin")]
         [StringLength(512)]
         [Column(TypeName = "varchar")]
-        public char pinyin { get; set; }
+        public string pinyin { get; set; }
 
         [JsonPropertyName("gender")]
         public short? gender { get; set; }
@@ -66,32 +66,32 @@ namespace WebReport.Models
         [JsonPropertyName("phone")]
         [Column(TypeName = "varchar")]
         [StringLength(20)]
-        public char? phone { get; set; }
+        public string phone { get; set; }
 
         [JsonPropertyName("avatar")]
         [Column(TypeName = "varchar")]
         [StringLength(256)]
-        public char? avatar { get; set; }
+        public string avatar { get; set; }
 
         [JsonPropertyName("department")]
         [Column(TypeName = "varchar")]
         [StringLength(256)]
-        public char? department { get; set; }
+        public string department { get; set; }
 
         [JsonPropertyName("department_pinyin")]
         [Column(TypeName = "varchar")]
         [StringLength(512)]
-        public char? department_pinyin { get; set; }
+        public string department_pinyin { get; set; }
 
         [JsonPropertyName("title")]
         [Column(TypeName = "varchar")]
         [StringLength(64)]
-        public char? title { get; set; }
+        public string title { get; set; }
 
         [JsonPropertyName("description")]
         [Column(TypeName = "varchar")]
         [StringLength(128)]
-        public char? description { get; set; }
+        public string description { get; set; }
 
         [JsonPropertyName("mobile_os")]
         public int? mobile_os { get; set; }
@@ -107,12 +107,12 @@ namespace WebReport.Models
         [JsonPropertyName("job_number")]
         [Column(TypeName = "varchar")]
         [StringLength(64)]
-        public char? job_number { get; set; }
+        public string job_number { get; set; }
 
         [JsonPropertyName("remark")]
         [Column(TypeName = "varchar")]
         [StringLength(128)]
-        public char? remark { get; set; }
+        public string remark { get; set; }
 
         [JsonPropertyName("purpose")]
         public int? purpose { get; set; }
@@ -120,17 +120,17 @@ namespace WebReport.Models
         [JsonPropertyName("interviewee")]
         [Column(TypeName = "varchar")]
         [StringLength(20)]
-        public char? interviewee { get; set; }
+        public string interviewee { get; set; }
 
         [JsonPropertyName("interviewee_pinyin")]
         [Column(TypeName = "varchar")]
         [StringLength(512)]
-        public char? interviewee_pinyin { get; set; }
+        public string interviewee_pinyin { get; set; }
 
         [JsonPropertyName("come_from")]
         [Column(TypeName = "varchar")]
         [StringLength(128)]
-        public char? come_from { get; set; }
+        public string come_from { get; set; }
 
         [JsonPropertyName("inviter_id")]
         public int? inviter_id { get; set; }
@@ -150,12 +150,12 @@ namespace WebReport.Models
         [JsonPropertyName("extra_id")]
         [Column(TypeName = "varchar")]
         [StringLength(64)]
-        public char? extra_id { get; set; }
+        public string extra_id { get; set; }
 
         [JsonPropertyName("wg_number")]
         [Column(TypeName = "varchar")]
         [StringLength(64)]
-        public char? wg_number { get; set; }
+        public string wg_number { get; set; }
 
         [JsonPropertyName("is_use")]
         public byte? is_use { get; set; }
@@ -169,7 +169,7 @@ namespace WebReport.Models
         [JsonPropertyName("credential_no")]
         [Column(TypeName = "varchar")]
         [StringLength(64)]
-        public char? credential_no { get; set; }
+        public string credential_no { get; set; }
 
         [JsonPropertyName("nation")]
         public int? nation { get; set; }
@@ -177,7 +177,7 @@ namespace WebReport.Models
         [JsonPropertyName("origin")]
         [Column(TypeName = "varchar")]
         [StringLength(64)]
-        public char? origin { get; set; }
+        public string origin { get; set; }
 
         [JsonPropertyName("domicile_province_code")]
         public long? domicile_province_code { get; set; }//bigint
@@ -194,7 +194,7 @@ namespace WebReport.Models
         [JsonPropertyName("domicile_address")]
         [Column(TypeName = "varchar")]
         [StringLength(256)]
-        public char? domicile_address { get; set; }
+        public string domicile_address { get; set; }
 
         [JsonPropertyName("residence_province_code")]
         public long? residence_province_code { get; set; }
@@ -211,7 +211,7 @@ namespace WebReport.Models
         [JsonPropertyName("residence_address")]
         [Column(TypeName = "varchar")]
         [StringLength(256)]
-        public char? residence_address { get; set; }
+        public string residence_address { get; set; }
 
         [JsonPropertyName("education_code")]
         public int? education_code { get; set; }
@@ -222,7 +222,7 @@ namespace WebReport.Models
         [JsonPropertyName("nationality_code")]
         [Column(TypeName = "varchar")]
         [StringLength(4)]
-        public char? nationality_code { get; set; }
+        public string nationality_code { get; set; }
 
         [JsonPropertyName("source")]
         public int? source { get; set; }
@@ -230,17 +230,17 @@ namespace WebReport.Models
         [JsonPropertyName("village")]
         [Column(TypeName = "varchar")]
         [StringLength(64)]
-        public char? village { get; set; }
+        public string village { get; set; }
 
         [JsonPropertyName("building")]
         [Column(TypeName = "varchar")]
         [StringLength(64)]
-        public char? building { get; set; }
+        public string building { get; set; }
 
         [JsonPropertyName("house")]
         [Column(TypeName = "varchar")]
         [StringLength(64)]
-        public char? house { get; set; }
+        public string house { get; set; }
 
         [JsonPropertyName("house_rel_code")]
         public int? house_rel_code { get; set; }

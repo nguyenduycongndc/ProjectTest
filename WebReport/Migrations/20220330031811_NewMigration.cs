@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WebReport.Migrations
 {
-    public partial class newMigration : Migration
+    public partial class NewMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -152,11 +152,11 @@ namespace WebReport.Migrations
                     confidence = table.Column<double>(type: "double", nullable: true),
                     event_type = table.Column<int>(type: "int", nullable: false),
                     subject_type = table.Column<short>(type: "smallint", nullable: true),
-                    real_name = table.Column<string>(type: "varchar(64)", maxLength: 64, nullable: false)
+                    real_name = table.Column<string>(type: "varchar(64)", maxLength: 64, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    pinyin = table.Column<string>(type: "varchar(612)", maxLength: 612, nullable: false)
+                    pinyin = table.Column<string>(type: "varchar(612)", maxLength: 612, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    subject_photo = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false)
+                    subject_photo = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     timestamp = table.Column<int>(type: "int", nullable: true),
                     fmp = table.Column<double>(type: "double", nullable: true),

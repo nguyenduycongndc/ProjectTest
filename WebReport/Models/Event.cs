@@ -32,7 +32,7 @@ namespace WebReport.Models
         [JsonPropertyName("photo")]
         [Column(TypeName = "varchar")]
         [StringLength(256)]
-        public char? photo { get; set; }
+        public string photo { get; set; }
 
         [JsonPropertyName("age")]
         public double? age { get; set; }
@@ -61,17 +61,17 @@ namespace WebReport.Models
         [JsonPropertyName("real_name")]
         [Column(TypeName = "varchar")]
         [StringLength(64)]
-        public char real_name { get; set; }
+        public string real_name { get; set; }
 
         [JsonPropertyName("pinyin")]
         [Column(TypeName = "varchar")]
         [StringLength(612)]
-        public char pinyin { get; set; }
+        public string pinyin { get; set; }
 
         [JsonPropertyName("subject_photo")]
         [Column(TypeName = "varchar")]
         [StringLength(256)]
-        public char subject_photo { get; set; }//varchar
+        public string subject_photo { get; set; }//varchar
 
         [JsonPropertyName("timestamp")]
         public int? timestamp { get; set; }
@@ -85,12 +85,12 @@ namespace WebReport.Models
         [JsonPropertyName("camera_position")]
         [Column(TypeName = "varchar")]
         [StringLength(128)]
-        public char? camera_position { get; set; }
+        public string camera_position { get; set; }
 
         [JsonPropertyName("uuid")]
         [Column(TypeName = "varchar")]
         [StringLength(64)]
-        public char? uuid { get; set; }
+        public string uuid { get; set; }
 
         [JsonPropertyName("pass_type")]
         public int? pass_type { get; set; }

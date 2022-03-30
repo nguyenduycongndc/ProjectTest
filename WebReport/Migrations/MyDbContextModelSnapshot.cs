@@ -104,7 +104,6 @@ namespace WebReport.Migrations
                         .HasColumnType("varchar(256)");
 
                     b.Property<string>("pinyin")
-                        .IsRequired()
                         .HasMaxLength(612)
                         .HasColumnType("varchar(612)");
 
@@ -112,7 +111,6 @@ namespace WebReport.Migrations
                         .HasColumnType("double");
 
                     b.Property<string>("real_name")
-                        .IsRequired()
                         .HasMaxLength(64)
                         .HasColumnType("varchar(64)");
 
@@ -126,7 +124,6 @@ namespace WebReport.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("subject_photo")
-                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)");
 

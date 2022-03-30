@@ -40,6 +40,10 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "dependencies": {
+            "EPPlus": {
+              "target": "Package",
+              "version": "[5.8.8, )"
+            },
             "Microsoft.Bcl.AsyncInterfaces": {
               "target": "Package",
               "version": "[5.0.0, )"

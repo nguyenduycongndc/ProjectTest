@@ -15,10 +15,13 @@ var apiConfig = {
             "controller": "/Report",
             "action": {
                 "search": {
-                    //function support get items by search condition
                     "method": "GET",
                     "path": "/Search"
                 },
+                "exportexcel": {
+                    "method": "GET",
+                    "path": "/ExportExcel"
+                }
             }
         },
     }
