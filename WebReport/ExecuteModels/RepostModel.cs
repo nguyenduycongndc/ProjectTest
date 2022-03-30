@@ -109,9 +109,25 @@ namespace WebReport.ExecuteModels
         public string email { get; set; }//email
         [JsonPropertyName("phone")]
         public string phone { get; set; }//phone
+        [JsonPropertyName("time")]
+        public string time { get; set; }//ngày
+
+        [JsonPropertyName("timefirstlogin")]
+        public string timefirstlogin { get; set; }//ngày
+        [JsonPropertyName("Hoursfirstlogin")]
+        public string Hoursfirstlogin { get; set; }//giờ vào
+        [JsonPropertyName("Minutesfirstlogin")]
+        public string Minutesfirstlogin { get; set; }//phút vào
+
+        [JsonPropertyName("timelastlogout")]
+        public string timelastlogout { get; set; }//ngày
+        [JsonPropertyName("Hourslastlogout")]
+        public string Hourslastlogout { get; set; }//giờ ra
+        [JsonPropertyName("Minuteslastlogout")]
+        public string Minuteslastlogout { get; set; }//phút ra
+
         [JsonPropertyName("timestamp")]
         public int timestamp { get; set; }//ngày
-
         [JsonPropertyName("firstlogin")]
         public int firstlogin { get; set; }//giờ vào sớm nhất
         [JsonPropertyName("lastlogout")]

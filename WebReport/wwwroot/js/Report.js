@@ -3,7 +3,6 @@ function openView(type, value) {
     var index = $("#view");
     var detail = $("#detail");
     if (type === 0) {
-        
         index.show();
         detail.hide();
         setTimeout(function () {
@@ -14,6 +13,12 @@ function openView(type, value) {
         index.hide();
         detail.show();
     }
+}
+window.onload = function () {
+    setTimeout(function () {
+        openView(0, 0);
+    }, 100);
+
 }
 function onSearch() {
     var convert_todate = new Date($('#ToDate').val() + ',' +"00:00:01").getTime() / 1000;
@@ -56,6 +61,14 @@ function fnSearchSuccess(rspn) {
             var Minutesfirstlogin = new Date(parseInt(obj.firstlogin + "000")).getMinutes();
             var Hourslastlogout = new Date(parseInt(obj.lastlogout + "000")).getHours();
             var Minuteslastlogout = new Date(parseInt(obj.lastlogout + "000")).getMinutes();
+
+            //var timedateconvert = obj.time;
+            //var timedateconvertfirstlogin = obj.timefirstlogin;
+            //var timedateconvertlastlogout = obj.timelastlogout;
+            //var timeHoursfirstlogin = new Date(obj.timefirstlogin).getHours();
+            //var timeMinutesfirstlogin = new Date(obj.timefirstlogin).getMinutes();
+            //var timeHourslastlogout = new Date(obj.timelastlogout).getHours();
+            //var timeMinuteslastlogout = new Date(obj.timelastlogout).getMinutes();
             
             var html = '<tr>' +
                 '<td class="text-center"></td>' +
@@ -69,7 +82,7 @@ function fnSearchSuccess(rspn) {
                 '<td>' + dateconvertfirstlogin + '</td>' +
                 '<td>' + dateconvertlastlogout + '</td>' +
                 '<td>' + ((((Hourslastlogout <= 11) && (Minuteslastlogout < 30)) || ((Hoursfirstlogin >= 13) && (Minutesfirstlogin > 0))) ? (Math.abs(Hourslastlogout - Hoursfirstlogin) + "giờ" + Math.abs(Minuteslastlogout - Minutesfirstlogin) + "phút") : ((Hourslastlogout - Hoursfirstlogin) == 8 && (Minuteslastlogout - Minutesfirstlogin) > 0 ? "8 giờ" : (Math.abs(Hourslastlogout - Hoursfirstlogin - 1) + "giờ" + Math.abs(Minuteslastlogout - Minutesfirstlogin - 30) + "phút"))) + '</td>' +
-                '<td>' + ((Hoursfirstlogin >= 10) ? "Vắng buổi sáng" : ((Hourslastlogout <= 15) ? "Vắng chiều" : ""))+ '</td>' +
+                '<td>' + ((Hoursfirstlogin >= 10) ? "Vắng buổi sáng" : ((Hourslastlogout <= 15) ? "Vắng buổi chiều" : ""))+ '</td>' +
                 '<td>' + ((((Hourslastlogout <= 11) && (Minuteslastlogout < 30)) || ((Hoursfirstlogin >= 13) && (Minutesfirstlogin > 0))) ? (8 - Math.abs(Hourslastlogout - Hoursfirstlogin) + "giờ" + (Math.abs(Minuteslastlogout - Minutesfirstlogin) != 0 ? (60 - Math.abs(Minuteslastlogout - Minutesfirstlogin)) : Math.abs(Minuteslastlogout - Minutesfirstlogin)) + "phút") : ((Hourslastlogout - Hoursfirstlogin) == 8 && (Minuteslastlogout - Minutesfirstlogin) > 0 ? "8 giờ" : (8 - Math.abs(Hourslastlogout - Hoursfirstlogin - 1) + "giờ" + (Math.abs(Minuteslastlogout - Minutesfirstlogin - 30) != 0 ? (60 - Math.abs(Minuteslastlogout - Minutesfirstlogin - 30)) : Math.abs(Minuteslastlogout - Minutesfirstlogin-30)) + "phút"))) + '</td>' +
                 '<td>' + obj.camera_position + '</td>' +
                 '<td class="text-center col-action">' +
@@ -167,8 +180,8 @@ function ExportExcel() {
         'description': $('#Description').val().trim(),
         'todate': convert_todate,
         'fromdate': convert_fromdate,
-        'page_size':1,
-        'start_number': 1
+        'page_size':10,
+        'start_number': 0
     }
 
     var jsonData = JSON.stringify(obj);
@@ -190,11 +203,11 @@ function ExportExcel() {
         }
         //if (this.status == 404) {
         //    /*toastr.error("Không tìm thấy dữ liệu!", "Lỗi!", { progressBar: true });*/
-        //    swal(error + "!", "Không tìm thấy dữ liệu!", "error");
+        //    swal("Error!", "Không tìm thấy dữ liệu", "error");
         //}
         //if (this.status == 400) {
         //    //toastr.error("Có lỗi xảy ra!", "Lỗi!", { progressBar: true });
-        //    swal(error + "!", "Có lỗi trong quá trình xử lý!", "error");
+        //    swal("Error!", "Có lỗi trong quá trình xử lý!", "error");
         //}
     }
     request.send();

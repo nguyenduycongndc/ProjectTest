@@ -38,16 +38,16 @@ namespace WebReport.Controllers
         }
         //[HttpGet("Search")]
         [HttpGet]
-        public async Task<IActionResult> Search(string jsonData)
+        public IActionResult Search(string jsonData)
         {
             try
             {
                 var obj = JsonSerializer.Deserialize<RepostSearchModel>(jsonData);
-                Expression<Func<Event, bool>> filter = c => (string.IsNullOrEmpty(obj.name) || c.real_name.ToString().ToLower().Contains(obj.name.ToLower()))
-                                                    && (string.IsNullOrEmpty(obj.department) || c.Subject.department.ToString().ToLower().Contains(obj.department.ToLower()))
+                Expression<Func<Event, bool>> filter = c => (string.IsNullOrEmpty(obj.name) || c.real_name.ToLower().Contains(obj.name.ToLower()))
+                                                    && (string.IsNullOrEmpty(obj.department) || c.Subject.department.ToLower().Contains(obj.department.ToLower()))
                                                     && ((obj.todate == null) || c.timestamp >= obj.todate)
                                                     && ((obj.fromdate == null) || c.timestamp <= obj.fromdate)
-                                                    && (string.IsNullOrEmpty(obj.description) || c.Subject.description.ToString().ToLower().Contains(obj.description.ToLower()))
+                                                    && (string.IsNullOrEmpty(obj.description) || c.Subject.description.ToLower().Contains(obj.description.ToLower()))
                                                     && (c.fmp_error == 0)
                                                     && (c.pass_type == 1);
 
@@ -92,25 +92,29 @@ namespace WebReport.Controllers
                     var AttendanceData = _uow.Repository<Attendance>().Include(c => c.Subject).FirstOrDefault(v => v.subject_id == x[i].subject_id);
                     var EventData = _uow.Repository<Event>().Include(c => c.Subject).FirstOrDefault(v => v.id == (int)AttendanceData.earliest_record);
                     var EventData2 = _uow.Repository<Event>().Include(c => c.Subject).FirstOrDefault(v => v.id == (int)AttendanceData.latest_record);
+                    DateTime _dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
                     var RepostData1 = new ListData()
                     {
                         id = EventData.id,
                         subject_id = (int)EventData.subject_id,
                         name = EventData.real_name,
-                        description = EventData.Subject.description,
-                        department = EventData.Subject.department,
-                        job_number = EventData.Subject.job_number,
-                        title = EventData.Subject.title,
-                        email = EventData.Subject.email,
-                        phone = EventData.Subject.phone,
+                        description = EventData.Subject.description != null ? EventData.Subject.description : "",
+                        department = EventData.Subject.department != null ? EventData.Subject.department : "",
+                        job_number = EventData.Subject.job_number != null ? EventData.Subject.job_number : "",
+                        title = EventData.Subject.title != null ? EventData.Subject.title : "",
+                        email = EventData.Subject.email != null ? EventData.Subject.email : "",
+                        phone = EventData.Subject.phone != null ? EventData.Subject.phone : "",
+                        time = _dateTime.AddSeconds((double)EventData.timestamp).ToLocalTime().ToString("dd/MM/yyy HH:mm:ss"),
+                        timefirstlogin = _dateTime.AddSeconds((double)EventData.timestamp).ToLocalTime().ToString("dd/MM/yyy HH:mm:ss"),
+                        timelastlogout = _dateTime.AddSeconds((double)EventData2.timestamp).ToLocalTime().ToString("dd/MM/yyy HH:mm:ss"),
                         timestamp = (int)EventData.timestamp,
                         firstlogin = (int)EventData.timestamp,
                         lastlogout = (int)EventData2.timestamp,
-                        camera_position = EventData.camera_position,
+                        camera_position = EventData.camera_position != null ? EventData.camera_position : "",
                     };
                     arrData.Add(RepostData1);
                 }
-                return Ok(new { code = "1", msg = "success", data = arrData, total = arrData.Count() });
+                return  Ok(new { code = "1", msg = "success", data = arrData, total = arrData.Count() });
                 //return Ok(new { code = "1", msg = "success", data = report, total = count });
             }
             catch (Exception ex)
@@ -119,7 +123,7 @@ namespace WebReport.Controllers
             }
         }
         //xuất excel
-        [HttpGet("ExportExcel")]
+        [HttpGet]
         public IActionResult Export(string jsonData)
         {
             try
@@ -130,11 +134,11 @@ namespace WebReport.Controllers
                 //}
 
                 var obj = JsonSerializer.Deserialize<RepostSearchModel>(jsonData);
-                Expression<Func<Event, bool>> filter = c => (string.IsNullOrEmpty(obj.name) || c.real_name.ToString().ToLower().Contains(obj.name.ToLower()))
-                                                    && (string.IsNullOrEmpty(obj.department) || c.Subject.department.ToString().ToLower().Contains(obj.department.ToLower()))
+                Expression<Func<Event, bool>> filter = c => (string.IsNullOrEmpty(obj.name) || c.real_name.ToLower().Contains(obj.name.ToLower()))
+                                                    && (string.IsNullOrEmpty(obj.department) || c.Subject.department.ToLower().Contains(obj.department.ToLower()))
                                                     && ((obj.todate == null) || c.timestamp >= obj.todate)
                                                     && ((obj.fromdate == null) || c.timestamp <= obj.fromdate)
-                                                    && (string.IsNullOrEmpty(obj.description) || c.Subject.description.ToString().ToLower().Contains(obj.description.ToLower()))
+                                                    && (string.IsNullOrEmpty(obj.description) || c.Subject.description.ToLower().Contains(obj.description.ToLower()))
                                                     && (c.fmp_error == 0)
                                                     && (c.pass_type == 1);
 
@@ -173,27 +177,35 @@ namespace WebReport.Controllers
                     }).ToList(),
                 });
                 var x = report.GroupBy(a => a.name).Select(z => z.FirstOrDefault()).ToList();
-                var arrData = new List<object>();
+                var arrData = new List<ListData>();
                 for (int i = 0; i < x.Count(); i++)
                 {
                     var AttendanceData = _uow.Repository<Attendance>().Include(c => c.Subject).FirstOrDefault(v => v.subject_id == x[i].subject_id);
                     var EventData = _uow.Repository<Event>().Include(c => c.Subject).FirstOrDefault(v => v.id == (int)AttendanceData.earliest_record);
                     var EventData2 = _uow.Repository<Event>().Include(c => c.Subject).FirstOrDefault(v => v.id == (int)AttendanceData.latest_record);
+                    DateTime _dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
                     var RepostData1 = new ListData()
                     {
                         id = EventData.id,
                         subject_id = (int)EventData.subject_id,
                         name = EventData.real_name,
-                        description = EventData.Subject.description,
-                        department = EventData.Subject.department,
-                        job_number = EventData.Subject.job_number,
-                        title = EventData.Subject.title,
-                        email = EventData.Subject.email,
-                        phone = EventData.Subject.phone,
+                        description = EventData.Subject.description != null ? EventData.Subject.description : "",
+                        department = EventData.Subject.department != null ? EventData.Subject.department : "",
+                        job_number = EventData.Subject.job_number != null ? EventData.Subject.job_number : "",
+                        title = EventData.Subject.title != null ? EventData.Subject.title : "",
+                        email = EventData.Subject.email != null ? EventData.Subject.email : "",
+                        phone = EventData.Subject.phone != null ? EventData.Subject.phone : "",
+                        time = _dateTime.AddSeconds((double)EventData.timestamp).ToLocalTime().ToString("dd/MM/yyy"),
+                        timefirstlogin = _dateTime.AddSeconds((double)EventData.timestamp).ToLocalTime().ToString("HH:mm:ss"),
+                        Hoursfirstlogin = _dateTime.AddSeconds((double)EventData.timestamp).ToLocalTime().ToString("HH"),
+                        Minutesfirstlogin = _dateTime.AddSeconds((double)EventData.timestamp).ToLocalTime().ToString("mm"),
+                        timelastlogout = _dateTime.AddSeconds((double)EventData2.timestamp).ToLocalTime().ToString("HH:mm:ss"),
+                        Hourslastlogout = _dateTime.AddSeconds((double)EventData2.timestamp).ToLocalTime().ToString("HH"),
+                        Minuteslastlogout = _dateTime.AddSeconds((double)EventData2.timestamp).ToLocalTime().ToString("mm"),
                         timestamp = (int)EventData.timestamp,
                         firstlogin = (int)EventData.timestamp,
                         lastlogout = (int)EventData2.timestamp,
-                        camera_position = EventData.camera_position,
+                        camera_position = EventData.camera_position != null ? EventData.camera_position : "",
                     };
                     arrData.Add(RepostData1);
                 }
@@ -218,70 +230,65 @@ namespace WebReport.Controllers
                     var checkEvent = _uow.Repository<Event>().Find(z => z.fmp_error == 0 && z.pass_type == 1).ToArray();
                     foreach (var a in arrData)
                     {
-                        ExcelRange cellNo = worksheet.Cells[startrow, startcol];
-                        cellNo.Value = index;
+                        //ExcelRange cellNo = worksheet.Cells[startrow, startcol];
+                        //cellNo.Value = index;
+                        var SumTime = ((((Int64.Parse(a.Hourslastlogout) <= 11) && (Int64.Parse(a.Minuteslastlogout) < 30)) 
+                            || ((Int64.Parse(a.Hoursfirstlogin) >= 13) && (Int64.Parse(a.Minutesfirstlogin) > 0))) 
+                            ? (Math.Abs(Int64.Parse(a.Hourslastlogout) - Int64.Parse(a.Hoursfirstlogin)) + "giờ" + Math.Abs(Int64.Parse(a.Minuteslastlogout) - Int64.Parse(a.Minutesfirstlogin)) + "phút") : ((Int64.Parse(a.Hourslastlogout) - Int64.Parse(a.Hoursfirstlogin)) == 8 && (Int64.Parse(a.Minuteslastlogout) - Int64.Parse(a.Minutesfirstlogin)) > 0 
+                            ? "8 giờ" : (Math.Abs(Int64.Parse(a.Hourslastlogout) - Int64.Parse(a.Hoursfirstlogin) - 1) + "giờ" + Math.Abs(Int64.Parse(a.Minuteslastlogout) - Int64.Parse(a.Minutesfirstlogin) - 30) + "phút")));
+                        var Absent = ((Int64.Parse(a.Hoursfirstlogin) >= 10) ? "Vắng buổi sáng" : ((Int64.Parse(a.Hourslastlogout) <= 15) ? "Vắng buổi chiều" : ""));
+                        var TimeInOut = ((((Int64.Parse(a.Hourslastlogout) <= 11) && (Int64.Parse(a.Minuteslastlogout) < 30))
+                            || ((Int64.Parse(a.Hoursfirstlogin) >= 13) && (Int64.Parse(a.Minutesfirstlogin) > 0)))
+                            ? (8 - Math.Abs(Int64.Parse(a.Hourslastlogout) - Int64.Parse(a.Hoursfirstlogin)) + "giờ" + (Math.Abs(Int64.Parse(a.Minuteslastlogout) - Int64.Parse(a.Minutesfirstlogin)) != 0
+                            ? (60 - Math.Abs(Int64.Parse(a.Minuteslastlogout) - Int64.Parse(a.Minutesfirstlogin))) : Math.Abs(Int64.Parse(a.Minuteslastlogout) - Int64.Parse(a.Minutesfirstlogin))) + "phút") : ((Int64.Parse(a.Hourslastlogout) - Int64.Parse(a.Hoursfirstlogin)) == 8 && (Int64.Parse(a.Minuteslastlogout) - Int64.Parse(a.Minutesfirstlogin)) > 0
+                            ? "8 giờ" : (8 - Math.Abs(Int64.Parse(a.Hourslastlogout) - Int64.Parse(a.Hoursfirstlogin) - 1) + "giờ" + (Math.Abs(Int64.Parse(a.Minuteslastlogout) - Int64.Parse(a.Minutesfirstlogin) - 30) != 0
+                            ? (60 - Math.Abs(Int64.Parse(a.Minuteslastlogout) - Int64.Parse(a.Minutesfirstlogin) - 30)) : Math.Abs(Int64.Parse(a.Minuteslastlogout) - Int64.Parse(a.Minutesfirstlogin) - 30)) + "phút")));
+
                         //
-                        ExcelRange dataRp = worksheet.Cells[startrow, startcol];
-                        //dataRp.Value = string.Join(", ", a);
+                        ExcelRange dataRp1 = worksheet.Cells[startrow, startcol];
+                        dataRp1.Value = string.Join(", ", a.description);
                         //
-                        ExcelRange AdminFrameworkAuditDetect = worksheet.Cells[startrow, startcol + 2];
-                        //AdminFrameworkAuditDetect.Value = string.Join(", ", (a.admin_framework == 1 ? "Quản trị/Tổ chức/Số liệu tài chính" :
-                        //    a.admin_framework == 2 ? "Hoạt động/Quy trình/Quy định" :
-                        //    a.admin_framework == 3 ? "Kiểm sát vận hành/Thực thi" :
-                        //    a.admin_framework == 4 ? "Công nghệ thông tin" : ""));
-                        ////
-                        //ExcelRange ClassifyAuditDetect = worksheet.Cells[startrow, startcol + 3];
-                        //ClassifyAuditDetect.Value = string.Join(", ", a.CatDetectType.Name);
-                        ////
-                        //ExcelRange RatingRiskAuditDetect = worksheet.Cells[startrow, startcol + 4];
-                        //RatingRiskAuditDetect.Value = string.Join(", ", (a.rating_risk == 1 ? "Cao/Quan trọng" :
-                        //    a.rating_risk == 2 ? "Trung bình" :
-                        //    a.rating_risk == 3 ? "Thấp/Ít quan trọng" : ""));
-                        ////
-                        //ExcelRange CodeAuditDetect = worksheet.Cells[startrow, startcol + 5];
-                        //CodeAuditDetect.Value = string.Join(", ", a.code);
-                        ////
-                        //ExcelRange TitleAuditDetect = worksheet.Cells[startrow, startcol + 6];
-                        //TitleAuditDetect.Value = string.Join(", ", a.title);
-                        ////
-                        //ExcelRange DescriptionAuditDetect = worksheet.Cells[startrow, startcol + 7];
-                        //DescriptionAuditDetect.Value = string.Join(", ", a.description);
-                        ////
-                        //ExcelRange EvidenceAuditDetect = worksheet.Cells[startrow, startcol + 8];
-                        //EvidenceAuditDetect.Value = string.Join(", ", a.evidence);
-                        ////
-                        //ExcelRange AffectAuditDetect = worksheet.Cells[startrow, startcol + 9];
-                        //AffectAuditDetect.Value = string.Join(", ", a.affect);
-                        ////
-                        //ExcelRange CauseAuditDetect = worksheet.Cells[startrow, startcol + 10];
-                        //CauseAuditDetect.Value = string.Join(", ", a.cause);
-                        ////
-                        //ExcelRange CodeARM = worksheet.Cells[startrow, startcol + 11];
-                        //CodeARM.Value = string.Join(", ", codeARM);
-                        ////
-                        //ExcelRange ReeportAuditDetect = worksheet.Cells[startrow, startcol + 12];
-                        //ReeportAuditDetect.Value = string.Join(", ", (a.audit_report == true ? "Có" : "Không"));
-                        ////
-                        //ExcelRange OpinionAuditDetect = worksheet.Cells[startrow, startcol + 13];
-                        //OpinionAuditDetect.Value = string.Join(", ", (a.opinion_audit == true ? "Đồng ý " : "Không đồng ý"));
-                        ////
-                        //ExcelRange ReasonAuditDetect = worksheet.Cells[startrow, startcol + 14];
-                        //ReasonAuditDetect.Value = string.Join(", ", a.reason);
-                        ////
-                        //ExcelRange PaperCodeAuditDetect = worksheet.Cells[startrow, startcol + 15];
-                        //PaperCodeAuditDetect.Value = string.Join(", ", codeAO);
-                        ////
-                        //ExcelRange AuditprocessNameAuditDetect = worksheet.Cells[startrow, startcol + 16];
-                        //AuditprocessNameAuditDetect.Value = string.Join(", ", a.auditprocess_name);
-                        ////
-                        //ExcelRange AuditfacilitiesNameAuditDetect = worksheet.Cells[startrow, startcol + 17];
-                        //AuditfacilitiesNameAuditDetect.Value = string.Join(", ", a.auditfacilities_name);
-                        ////
-                        //ExcelRange StatusNameAuditDetect = worksheet.Cells[startrow, startcol + 18];
-                        //StatusNameAuditDetect.Value = string.Join(", ", statusName.StatusName);
+                        ExcelRange dataRp2 = worksheet.Cells[startrow, startcol + 1];
+                        dataRp1.Value = string.Join(", ", a.department);
+                        //
+                        ExcelRange dataRp3 = worksheet.Cells[startrow, startcol + 2];
+                        dataRp3.Value = string.Join(", ", a.name);
+                        //
+                        ExcelRange dataRp4 = worksheet.Cells[startrow, startcol + 3];
+                        dataRp4.Value = string.Join(", ", a.job_number);
+                        //
+                        ExcelRange dataRp5 = worksheet.Cells[startrow, startcol + 4];
+                        dataRp5.Value = string.Join(", ", a.title);
+                        //
+                        ExcelRange dataRp6 = worksheet.Cells[startrow, startcol + 5];
+                        dataRp6.Value = string.Join(", ", a.email);
+                        //
+                        ExcelRange dataRp7 = worksheet.Cells[startrow, startcol + 6];
+                        dataRp7.Value = string.Join(", ", a.phone);
+                        //
+                        ExcelRange dataRp8 = worksheet.Cells[startrow, startcol + 7];
+                        dataRp8.Value = string.Join(", ", a.time);
+                        //
+                        ExcelRange dataRp9 = worksheet.Cells[startrow, startcol + 8];
+                        dataRp9.Value = string.Join(", ", a.timefirstlogin);
+                        //
+                        ExcelRange dataRp10 = worksheet.Cells[startrow, startcol + 9];
+                        dataRp10.Value = string.Join(", ", a.timelastlogout);
+                        //
+                        ExcelRange dataRp11 = worksheet.Cells[startrow, startcol + 10];//tong tg
+                        dataRp11.Value = string.Join(", ", SumTime);
+                        //
+                        ExcelRange dataRp12 = worksheet.Cells[startrow, startcol + 11];//vang
+                        dataRp12.Value = string.Join(", ", Absent);
+                        //
+                        ExcelRange dataRp13 = worksheet.Cells[startrow, startcol + 12];//thieu gio
+                        dataRp13.Value = string.Join(", ", TimeInOut);
+                        //
+                        ExcelRange dataRp14 = worksheet.Cells[startrow, startcol + 13];//dia diem
+                        dataRp14.Value = string.Join(", ", a.camera_position);
                         startrow++;
                     }
-                    using ExcelRange r = worksheet.Cells[5, 1, startrow, 19];
+                    using ExcelRange r = worksheet.Cells[2, 1, startrow, 14];
                     r.Style.Border.Top.Style = ExcelBorderStyle.Thin;
                     r.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
                     r.Style.Border.Left.Style = ExcelBorderStyle.Thin;

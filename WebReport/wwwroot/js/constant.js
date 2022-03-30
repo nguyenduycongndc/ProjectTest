@@ -20,7 +20,7 @@ var apiConfig = {
                 },
                 "exportexcel": {
                     "method": "GET",
-                    "path": "/ExportExcel"
+                    "path": "/Export"
                 }
             }
         },
