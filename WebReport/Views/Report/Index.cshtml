@@ -6,6 +6,7 @@
     Layout = "_Layout";
 
 }
+<link rel="stylesheet" type="text/css" href="~/css/reportTable.css?v=1.1">
 <div class="row mx-0" style="padding-bottom: 0px; ">
     <div class="col p-md-0">
         <ol class="breadcrumb">
@@ -29,11 +30,11 @@
                     <div class="col-md-12 row">
                         <div class="col-md-4 mb-3">
                             <div class="form-group row">
-                                <label class="col-form-label col-lg-3" for="Branch">
+                                <label class="col-form-label col-lg-3" for="Description">
                                     Tên chi nhánh
                                 </label>
                                 <div class="col-lg-9">
-                                    <input type="text" class="form-control" placeholder="Tên chi nhánh" id="Branch" name="Branch" onchange="onSearch()">
+                                    <input type="text" class="form-control" placeholder="Tên chi nhánh" id="Description" name="Description" onchange="onSearch()">
                                 </div>
                             </div>
                         </div>
@@ -82,7 +83,7 @@
                     <div class="col-md-12 mb-3 btn-search-custom">
                         <div style="text-align:center;">
                             <a href="javascript:void(0)" class="btn btn-success" onclick="onSearch()"><i class="fas fa-search" aria-hidden="true"></i>Tìm kiếm</a>
-                            <a href="javascript:void(0)" class="btn btn-info" onclick="Excel()"><i class="fas fa-download" aria-hidden="true"></i>Tải xuống</a>
+                            <a href="javascript:void(0)" class="btn btn-info" onclick="ExportExcel()"><i class="fas fa-download" aria-hidden="true"></i>Tải xuống</a>
                         </div>
                     </div>
                     @*<div class="col-md-12 mb-2 " style="text-align:center; ">
@@ -92,13 +93,22 @@
             </form>
             <div class="table-responsive custom-table-scroll ">
                 <table id="reportTable" class="table table-striped table-bordered zero-configuration" style="width:100%">
-                    <thead class="contain-header-custom m-gray">
+                    <thead class="contain-header-custom m-gray" style="background: #d5dce5 ">
                         <tr>
-                            @*<th class="number1" style="text-align: center">STT</th>*@
+                            <th class="number1" style="text-align: center">STT</th>
                             <th class="number2" style="text-align: center">Tên chi nhánh</th>
                             <th class="number3" style="text-align: center">Phòng ban</th>
                             <th class="number4" style="text-align: center">Họ tên nhân viên</th>
-                            <th class="number5" style="text-align: center">Ngày</th>
+                            <th class="number5" style="text-align: center">Mã nhân viên</th>
+                            <th class="number6" style="text-align: center">Mail</th>
+                            <th class="number7" style="text-align: center">Số điện thoại</th>
+                            <th class="number8" style="text-align: center">Ngày</th>
+                            <th class="number9" style="text-align: center">Giờ vào</th>
+                            <th class="number10" style="text-align: center">Giờ ra</th>
+                            <th class="number11" style="text-align: center">Tổng thời gian</th>
+                            <th class="number12" style="text-align: center">Vắng</th>
+                            <th class="number13" style="text-align: center">Thời gian vào/ra</th>
+                            <th class="number14" style="text-align: center">Địa điểm chấm công</th>
                             <th id="OptionReport" style="text-align: center">Lựa chọn</th>
                         </tr>
                     </thead>

@@ -1,0 +1,47 @@
+﻿tr th.number1 {
+    width: 1% !important;
+}
+tr th.number2 {
+    width: 10% !important;
+}
+tr th.number3 {
+    width: 7% !important;
+}
+tr th.number4 {
+    width: 10% !important;
+}
+tr th.number5 {
+    width: 7% !important;
+}
+tr th.number6 {
+    width: 10% !important;
+}
+tr th.number7 {
+    width: 10% !important;
+}
+tr th.number8 {
+    width: 3% !important;
+}
+tr th.number9 {
+    width: 3% !important;
+}
+tr th.number10 {
+    width: 3% !important;
+}
+tr th.number11 {
+    width: 7% !important;
+}
+tr th.number12 {
+    width: 10% !important;
+}
+tr th.number13 {
+    width: 10% !important;
+}
+tr th.number14 {
+    width: 10% !important;
+}
+
+
+#OptionReport {
+    min-width: 117px !important;
+}

@@ -9,7 +9,9 @@ namespace WebReport.DataAccess
 {
     public class MyDbContext : DbContext
     {
-        public DbSet<Repost> Reposts { get; set; }
+        public DbSet<Subject> Subjects { get; set; }
+        public DbSet<Event> Events { get; set; }
+        public DbSet<Attendance> Attendances { get; set; }
 
         public MyDbContext(DbContextOptions<MyDbContext> options) : base(options)
         {
