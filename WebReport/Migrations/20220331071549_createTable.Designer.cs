@@ -8,7 +8,7 @@ using WebReport.DataAccess;
 namespace WebReport.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20220328071114_createTable")]
+    [Migration("20220331071549_createTable")]
     partial class createTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

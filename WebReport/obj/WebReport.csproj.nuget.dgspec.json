@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\pjtest\\Report\\WebReport\\WebReport.csproj": {}
+    "D:\\pjtest\\ProjectTest\\WebReport\\WebReport.csproj": {}
   },
   "projects": {
-    "D:\\pjtest\\Report\\WebReport\\WebReport.csproj": {
+    "D:\\pjtest\\ProjectTest\\WebReport\\WebReport.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\pjtest\\Report\\WebReport\\WebReport.csproj",
+        "projectUniqueName": "D:\\pjtest\\ProjectTest\\WebReport\\WebReport.csproj",
         "projectName": "WebReport",
-        "projectPath": "D:\\pjtest\\Report\\WebReport\\WebReport.csproj",
+        "projectPath": "D:\\pjtest\\ProjectTest\\WebReport\\WebReport.csproj",
         "packagesPath": "C:\\Users\\congnd\\.nuget\\packages\\",
-        "outputPath": "D:\\pjtest\\Report\\WebReport\\obj\\",
+        "outputPath": "D:\\pjtest\\ProjectTest\\WebReport\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\congnd\\AppData\\Roaming\\NuGet\\NuGet.Config",
