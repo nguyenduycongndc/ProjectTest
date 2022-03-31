@@ -364,7 +364,9 @@ function getImportResult(note) {
 function ResetPageSize() {
     $("#txtCurrentPage").val(1);
     reCalculatPagesCustom(0);
+    reCalculatPagesCustomDetail(0);
     viewBtnActionPage();
+    viewBtnActionPageDetail();
 }
 function checkFilesize(files) {
 

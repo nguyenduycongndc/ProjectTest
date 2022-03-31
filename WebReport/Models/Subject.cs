@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace WebReport.Models
 {
-    [Table("SUBJECT")]
+    [Table("subject")]
     public class Subject
     {
         public Subject()

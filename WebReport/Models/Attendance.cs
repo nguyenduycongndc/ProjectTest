@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace WebReport.Models
 {
-    [Table("ATTENDANCE")]
+    [Table("attendance")]
     public class Attendance
     {
         [Key]

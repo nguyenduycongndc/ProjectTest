@@ -21,6 +21,14 @@ var apiConfig = {
                 "exportexcel": {
                     "method": "GET",
                     "path": "/Export"
+                },
+                "searchdetail": {
+                    "method": "GET",
+                    "path": "/SearchDetail"
+                },
+                "exportdetail": {
+                    "method": "GET",
+                    "path": "/ExportDetail"
                 }
             }
         },
