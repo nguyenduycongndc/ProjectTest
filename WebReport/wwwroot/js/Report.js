@@ -250,7 +250,7 @@ function fnSearchSuccessDetail(rspn) {
             '</tr>';
             tbBody.append(html);
         }
-        var page_size = (parseInt($("#txtCurrentPage").val()) - 1) * parseInt($("#cbPageSize").val())
+        var page_size = (parseInt($("#txtCurrentPageDetail").val()) - 1) * parseInt($("#cbPageSizeDetail").val())
         var t = $("#reportTableDetail").DataTable({
             "bPaginate": false,
             "bLengthChange": false,
@@ -291,7 +291,7 @@ function fnSearchSuccessDetail(rspn) {
         $("#reportTableDetail").dataTable().fnDestroy();
         tbBody.html('');
 
-        var page_size = (parseInt($("#txtCurrentPage").val()) - 1) * parseInt($("#cbPageSize").val())
+        var page_size = (parseInt($("#txtCurrentPageDetail").val()) - 1) * parseInt($("#cbPageSizeDetail").val())
         var t = $("#reportTableDetail").DataTable({
             "bPaginate": false,
             "bLengthChange": false,
@@ -324,7 +324,7 @@ function fnSearchSuccessDetail(rspn) {
                 cell.innerHTML = i + page_size + 1;
             });
         }).draw();
-        reCalculatPagesCustomNull();
+        reCalculatPagesCustomNullDetail();
         hideLoading();
     }
 }
