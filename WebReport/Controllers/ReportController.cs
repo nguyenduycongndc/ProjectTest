@@ -88,11 +88,11 @@ namespace WebReport.Controllers
                 //    report = report.Skip(obj.StartNumber).Take(obj.PageSize);
                 //}
                 //var x = report.GroupBy(x => new { x.name, x.time }).Select(z => z.FirstOrDefault()).ToList();
-                var x = report.ToList();
+                var Listreport = report.ToList();
                 var arrData = new List<ListData>();
-                for (int i = 0; i < x.Count(); i++)
+                for (int i = 0; i < Listreport.Count(); i++)
                 {
-                    var AttendanceData = _uow.Repository<Attendance>().Include(c => c.Subject).FirstOrDefault(v => v.subject_id == x[i].subject_id && v.date == DateTime.Parse(x[i].time));
+                    var AttendanceData = _uow.Repository<Attendance>().Include(c => c.Subject).FirstOrDefault(v => v.subject_id == Listreport[i].subject_id && v.date == DateTime.Parse(Listreport[i].time));
                     if (AttendanceData != null)
                     {
                         var EventData = _uow.Repository<Event>().Include(c => c.Subject).FirstOrDefault(v => v.id == AttendanceData.earliest_record);
@@ -119,7 +119,7 @@ namespace WebReport.Controllers
                         arrData.Add(RepostData1);
                     }
                 }
-                var xxxx = arrData.Select(z => new ListData()
+                var dataNew = arrData.Select(z => new ListData()
                 {
                     id = z.id,
                     subject_id = z.subject_id,
@@ -140,9 +140,9 @@ namespace WebReport.Controllers
                 });
                 if (obj.StartNumber >= 0 && obj.PageSize > 0)
                 {
-                    xxxx = xxxx.Skip(obj.StartNumber).Take(obj.PageSize);
+                    dataNew = dataNew.Skip(obj.StartNumber).Take(obj.PageSize);
                 }
-                return Ok(new { code = "1", msg = "success", data = xxxx, total = xxxx.Count() });
+                return Ok(new { code = "1", msg = "success", data = dataNew, total = dataNew.Count() });
                 //return Ok(new { code = "1", msg = "success", data = x, total = x.Count() }); ;
             }
             catch (Exception ex)

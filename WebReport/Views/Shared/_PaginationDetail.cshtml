@@ -50,7 +50,7 @@
     var maxPagesDetail = 1;
 
     function reCalculatPagesCustomDetail(total) {
-        debugger;
+        
         dataListDetail.Total = total;
         var size = parseInt($("#cbPageSizeDetail").val());
         var byBlock = parseInt(dataListDetail.Total / size);
@@ -59,7 +59,7 @@
         $("#laCountDetail").text(maxPagesDetail);
         $("#rqSumValueDetail").text(formatNumberByLocate(dataListDetail.Sum));
     }
-    function reCalculatPagesCustomNullDetail() {
+    function reCalculatPagesCustomNull() {
         document.getElementById("btnViewTopPageDetail").disabled = true;
         document.getElementById("btnViewPriPageDetail").disabled = true;
         document.getElementById("btnViewNextPageDetail").disabled = true;
@@ -76,7 +76,7 @@
     }
 
     function btnNextPagesDetail(isAdd) {
-        debugger;
+        
         var currentPageDetail = parseInt($("#txtCurrentPageDetail").val());
         currentPageDetail += isAdd;
         if (currentPageDetail <= 1)
@@ -95,7 +95,7 @@
         onSearchDetail();
     }
     function viewBtnActionPageDetail() {
-        debugger;
+        
         var currentPageDetail = parseInt($("#txtCurrentPageDetail").val());
         document.getElementById("btnViewTopPageDetail").disabled = false;
         document.getElementById("btnViewPriPageDetail").disabled = false;

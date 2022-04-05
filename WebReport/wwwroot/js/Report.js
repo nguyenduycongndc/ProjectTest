@@ -230,10 +230,10 @@ function onSearchDetail() {
 }
 function fnSearchSuccessDetail(rspn) {
     showLoading();
+    var tbBody = $('#reportTableDetail tbody');
+    $("#reportTableDetail").dataTable().fnDestroy();
+    tbBody.html('');
     if (rspn !== undefined && rspn !== null) {
-        var tbBody = $('#reportTableDetail tbody');
-        $("#reportTableDetail").dataTable().fnDestroy();
-        tbBody.html('');
         for (var i = 0; i < rspn.data.length; i++) {
             var obj = rspn.data[i];
             var html = '<tr>' +
@@ -246,8 +246,8 @@ function fnSearchSuccessDetail(rspn) {
                 '<td>' + (obj.phone != null ? obj.phone : "") + '</td>' +
                 '<td>' + (obj.time != null ? obj.time : "") + '</td>' +
                 '<td>' + (obj.timeaccuracy != null ? obj.timeaccuracy : "") + '</td>' +
-                '<td>' + (obj.camera_position != null ? obj.camera_position : "")  + '</td>' +
-            '</tr>';
+                '<td>' + (obj.camera_position != null ? obj.camera_position : "") + '</td>' +
+                '</tr>';
             tbBody.append(html);
         }
         var page_size = (parseInt($("#txtCurrentPageDetail").val()) - 1) * parseInt($("#cbPageSizeDetail").val())
@@ -324,7 +324,7 @@ function fnSearchSuccessDetail(rspn) {
                 cell.innerHTML = i + page_size + 1;
             });
         }).draw();
-        reCalculatPagesCustomNullDetail();
+        reCalculatPagesCustomNull();
         hideLoading();
     }
 }
