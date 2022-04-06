@@ -7,7 +7,7 @@ function openView(type, value) {
         detail.hide();
         setTimeout(function () {
             onSearch();
-        }, 100);
+        }, 10);
     }
     else if (type === 1) {
         index.hide();
@@ -15,43 +15,50 @@ function openView(type, value) {
         $("#subjectId").val(value)
         setTimeout(function () {
             onSearchDetail();
-        }, 100);
+        }, 10);
     }
 }
-window.onload = function () {
-    setTimeout(function () {
-        openView(0, 0);
-    }, 100);
+//window.onload = function () {
+//    setTimeout(function () {
+//        openView(0, 0);
+//    }, 100);
 
-}
+//}
 function onSearch() {
-    var convert_todate = new Date($('#ToDate').val() + ',' + "00:00:01").getTime() / 1000;
-    var convert_fromdate = new Date($('#FromDate').val() + ',' + "23:59:59").getTime() / 1000;
-    //var convert_todate = Date.parse($('#ToDate').val()).toString();
-    //var index_todate = convert_todate.lastIndexOf("000");
-    //var sub_todate = convert_todate.substring(index_todate,0)
-    //var convert_fromdate = Date.parse($('#FromDate').val()).toString();
-    //var index_fromdate = convert_fromdate.lastIndexOf("000");
-    //var sub_fromdate = convert_fromdate.substring(index_fromdate,0)
-    var obj = {
-        'name': $('#Name').val().trim(),
-        'department': $('#Department').val().trim(),
-        'description': $('#Description').val().trim(),
-        'todate': convert_todate,
-        'fromdate': convert_fromdate,
-        //'todate': parseInt(sub_todate),
-        //'fromdate': parseInt(sub_fromdate),
-        'page_size': parseInt($("#cbPageSize").val()),
-        'start_number': (parseInt($("#txtCurrentPage").val()) - 1) * parseInt($("#cbPageSize").val())
+    var fromDt = $('#FromDate').val();
+    var toDt = $('#ToDate').val();
+    if (fromDt == "" || toDt == "") {
+        swal("Warning!", "Vui lòng chọn đầy đủ thời gian khi tìm kiếm!", "warning");
+    } else {
+        var convert_fromdate = new Date($('#FromDate').val() + ',' + "00:00:01").getTime() / 1000;
+        var convert_todate = new Date($('#ToDate').val() + ',' + "23:59:59").getTime() / 1000;
+        //var convert_todate = Date.parse($('#ToDate').val()).toString();
+        //var index_todate = convert_todate.lastIndexOf("000");
+        //var sub_todate = convert_todate.substring(index_todate,0)
+        //var convert_fromdate = Date.parse($('#FromDate').val()).toString();
+        //var index_fromdate = convert_fromdate.lastIndexOf("000");
+        //var sub_fromdate = convert_fromdate.substring(index_fromdate,0)
+        var obj = {
+            'name': $('#Name').val().trim(),
+            'department': $('#Department').val().trim(),
+            'description': $('#Description').val().trim(),
+            'todate': convert_todate,
+            'fromdate': convert_fromdate,
+            //'todate': parseInt(sub_todate),
+            //'fromdate': parseInt(sub_fromdate),
+            'page_size': parseInt($("#cbPageSize").val()),
+            'start_number': (parseInt($("#txtCurrentPage").val()) - 1) * parseInt($("#cbPageSize").val())
+        }
+        callApi_report(
+            apiConfig.api.report.controller,
+            apiConfig.api.report.action.search.path,
+            apiConfig.api.report.action.search.method,
+            { 'jsonData': JSON.stringify(obj) }, 'fnSearchSuccess', 'msgError');
+        showLoading();
     }
-    callApi_report(
-        apiConfig.api.report.controller,
-        apiConfig.api.report.action.search.path,
-        apiConfig.api.report.action.search.method,
-        { 'jsonData': JSON.stringify(obj) }, 'fnSearchSuccess', 'msgError');
 }
 function fnSearchSuccess(rspn) {
-    showLoading();
+    //showLoading();
     if (rspn !== undefined && rspn !== null) {
         var tbBody = $('#reportTable tbody');
         $("#reportTable").dataTable().fnDestroy();
@@ -176,45 +183,51 @@ function fnSearchSuccess(rspn) {
 //xuất excel
 
 function ExportExcel() {
-    var convert_todate = new Date($('#ToDate').val() + ',' + "00:00:01").getTime() / 1000;
-    var convert_fromdate = new Date($('#FromDate').val() + ',' + "23:59:59").getTime() / 1000;
-    var obj = {
-        'name': $('#Name').val().trim(),
-        'department': $('#Department').val().trim(),
-        'description': $('#Description').val().trim(),
-        'todate': convert_todate,
-        'fromdate': convert_fromdate,
-        'page_size': parseInt($("#cbPageSize").val()),
-        'start_number': (parseInt($("#txtCurrentPage").val()) - 1) * parseInt($("#cbPageSize").val())
-    }
-
-    var jsonData = JSON.stringify(obj);
-
-    var request = new XMLHttpRequest();
-    request.responseType = "blob";
-    request.open("GET", apiConfig.api.host_report_url + apiConfig.api.report.controller +
-        apiConfig.api.report.action.exportexcel.path + "?jsonData=" + jsonData);
-    //request.setRequestHeader('Authorization', getSessionToken());
-    request.setRequestHeader('Accept-Language', 'vi-VN');
-    request.onload = function () {
-        if (this.status == 200) {
-            var link = document.createElement('a');
-            link.href = window.URL.createObjectURL(this.response);
-            link.download = "ReportFile.xlsx";
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+    var fromDt = $('#FromDate').val();
+    var toDt = $('#ToDate').val();
+    if (fromDt == "" || toDt == "") {
+        swal("Warning!", "Vui lòng chọn đầy đủ thời gian khi tải xuống!", "warning");
+    } else {
+        var convert_fromdate = new Date($('#FromDate').val() + ',' + "00:00:01").getTime() / 1000;
+        var convert_todate = new Date($('#ToDate').val() + ',' + "23:59:59").getTime() / 1000;
+        var obj = {
+            'name': $('#Name').val().trim(),
+            'department': $('#Department').val().trim(),
+            'description': $('#Description').val().trim(),
+            'todate': convert_todate,
+            'fromdate': convert_fromdate,
+            'page_size': parseInt($("#cbPageSize").val()),
+            'start_number': (parseInt($("#txtCurrentPage").val()) - 1) * parseInt($("#cbPageSize").val())
         }
-        //if (this.status == 404) {
-        //    /*toastr.error("Không tìm thấy dữ liệu!", "Lỗi!", { progressBar: true });*/
-        //    swal("Error!", "Không tìm thấy dữ liệu", "error");
-        //}
-        //if (this.status == 400) {
-        //    //toastr.error("Có lỗi xảy ra!", "Lỗi!", { progressBar: true });
-        //    swal("Error!", "Có lỗi trong quá trình xử lý!", "error");
-        //}
+
+        var jsonData = JSON.stringify(obj);
+
+        var request = new XMLHttpRequest();
+        request.responseType = "blob";
+        request.open("GET", apiConfig.api.host_report_url + apiConfig.api.report.controller +
+            apiConfig.api.report.action.exportexcel.path + "?jsonData=" + jsonData);
+        //request.setRequestHeader('Authorization', getSessionToken());
+        request.setRequestHeader('Accept-Language', 'vi-VN');
+        request.onload = function () {
+            if (this.status == 200) {
+                var link = document.createElement('a');
+                link.href = window.URL.createObjectURL(this.response);
+                link.download = "ReportFile.xlsx";
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+            if (this.status == 404) {
+                /*toastr.error("Không tìm thấy dữ liệu!", "Lỗi!", { progressBar: true });*/
+                swal("Error!", "Không tìm thấy dữ liệu", "error");
+            }
+            if (this.status == 400) {
+                //toastr.error("Có lỗi xảy ra!", "Lỗi!", { progressBar: true });
+                swal("Error!", "Có lỗi trong quá trình xử lý!", "error");
+            }
+        }
+        request.send();
     }
-    request.send();
 }
 function onSearchDetail() {
     var obj = {
@@ -227,13 +240,14 @@ function onSearchDetail() {
         apiConfig.api.report.action.searchdetail.path,
         apiConfig.api.report.action.searchdetail.method,
         { 'jsonData': JSON.stringify(obj) }, 'fnSearchSuccessDetail', 'msgError');
+    showLoading();
 }
 function fnSearchSuccessDetail(rspn) {
-    showLoading();
+    //showLoading();
+    var tbBody = $('#reportTableDetail tbody');
+    $("#reportTableDetail").dataTable().fnDestroy();
+    tbBody.html('');
     if (rspn !== undefined && rspn !== null) {
-        var tbBody = $('#reportTableDetail tbody');
-        $("#reportTableDetail").dataTable().fnDestroy();
-        tbBody.html('');
         for (var i = 0; i < rspn.data.length; i++) {
             var obj = rspn.data[i];
             var html = '<tr>' +
@@ -246,8 +260,8 @@ function fnSearchSuccessDetail(rspn) {
                 '<td>' + (obj.phone != null ? obj.phone : "") + '</td>' +
                 '<td>' + (obj.time != null ? obj.time : "") + '</td>' +
                 '<td>' + (obj.timeaccuracy != null ? obj.timeaccuracy : "") + '</td>' +
-                '<td>' + (obj.camera_position != null ? obj.camera_position : "")  + '</td>' +
-            '</tr>';
+                '<td>' + (obj.camera_position != null ? obj.camera_position : "") + '</td>' +
+                '</tr>';
             tbBody.append(html);
         }
         var page_size = (parseInt($("#txtCurrentPageDetail").val()) - 1) * parseInt($("#cbPageSizeDetail").val())
@@ -324,7 +338,7 @@ function fnSearchSuccessDetail(rspn) {
                 cell.innerHTML = i + page_size + 1;
             });
         }).draw();
-        reCalculatPagesCustomNullDetail();
+        reCalculatPagesCustomNull();
         hideLoading();
     }
 }
@@ -365,3 +379,9 @@ function ExportExcelDetail() {
     }
     request.send();
 }
+//function showLoading() {
+//    $('#preloader').css('display', 'block');
+//}
+//function hideLoading() {
+//    $('#preloader').css('display', 'none');
+//}

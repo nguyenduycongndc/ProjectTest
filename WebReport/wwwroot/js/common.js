@@ -13,36 +13,36 @@
 function viewValue(val) {
     return val == undefined || val == null ? '' : val;
 }
-String.prototype.strStatus = function () {
-    if (this == undefined)
-        return localizationResources.InActive;
-    var result = this.trim();
-    if (result == 1 || result == true || result == 'true') {
-        result = localizationResources.Active;
-    } else {
-        result = localizationResources.InActive;
-    }
-    return result
-}
-Boolean.prototype.strStatus = function () {
-    if (this == undefined)
-        return localizationResources.InActive;
-    var result = localizationResources.InActive;
-    if (this == true || this == 1) {
-        result = localizationResources.Active;
-    } else {
-        result = localizationResources.InActive;
-    }
-    return result
-}
+//String.prototype.strStatus = function () {
+//    if (this == undefined)
+//        return localizationResources.InActive;
+//    var result = this.trim();
+//    if (result == 1 || result == true || result == 'true') {
+//        result = localizationResources.Active;
+//    } else {
+//        result = localizationResources.InActive;
+//    }
+//    return result
+//}
+//Boolean.prototype.strStatus = function () {
+//    if (this == undefined)
+//        return localizationResources.InActive;
+//    var result = localizationResources.InActive;
+//    if (this == true || this == 1) {
+//        result = localizationResources.Active;
+//    } else {
+//        result = localizationResources.InActive;
+//    }
+//    return result
+//}
 
 function msgError(respon, status, error) {
     if (respon.status == 401)
-        swal("Unauthorized!", localizationResources.Error401, "warning");
+        swal("Unauthorized!", "401" , "warning");
     else if (respon.status == 404)
-        swal("Not found!", localizationResources.Error404, "warning");
+        swal("Not found!", "404", "warning");
     else
-        swal(error + "!", localizationResources.Error500, "error");
+        swal(error + "!", "500", "error");
 }
 
 function formatNumberByLocate(value) {
@@ -66,26 +66,26 @@ function btnOnSearch() {
 }
 
 
-//function showLoading() {
-//    $('#preloader').css('display', 'block');
-//}
-//function hideLoading() {
-//    setTimeout(function () {
-//        var keys = Object.keys(localStorage);
-//        var isOk = true;
-//        for (var i = 0; i < keys.length; i++) {
-//            if (keys[i].startsWith('loading'))
-//                isOk = false;
-//        }
-//        if (isOk)
-//            $('#preloader').css('display', 'none');
-//    }, 500);
-//}
-//function fakeValue(value) {
-//    if (value == undefined || value == null || value == '')
-//        return 0;
-//    return value;
-//}
+function showLoading() {
+    $('#preloader').css('display', 'block');
+}
+function hideLoading() {
+    setTimeout(function () {
+        var keys = Object.keys(localStorage);
+        var isOk = true;
+        for (var i = 0; i < keys.length; i++) {
+            if (keys[i].startsWith('loading'))
+                isOk = false;
+        }
+        if (isOk)
+            $('#preloader').css('display', 'none');
+    }, 500);
+}
+function fakeValue(value) {
+    if (value == undefined || value == null || value == '')
+        return 0;
+    return value;
+}
 
 function clearMsgInvalid() {
     var inputInvalid = $('.is-invalid');
@@ -108,7 +108,7 @@ function validateRequired(parent) {
         var grSelect = $(allRequired[i]).parent().find('select');
         var grTextarea = $(allRequired[i]).parent().find('textarea');
 
-        var msg = $(allRequired[i]).parent().find('label').text() + ' ' + localizationResources.CanNotNull;
+        var msg = $(allRequired[i]).parent().find('label').text() + ' ' + "NotNull";
         $(allRequired[i]).parent().find('.invalid-feedback').remove();
 
         if (grInput.length > 0 || grSelect.length > 0 || grTextarea.length > 0) {
@@ -222,57 +222,57 @@ function generateComboOptions(data, n, prop, extenal, idField, nameField) {
     return html;
 }
 
-function getStatusCode(code) {
-    var val = localizationResources['Error' + code];
-    return val ? val : code;
-}
+//function getStatusCode(code) {
+//    var val = localizationResources['Error' + code];
+//    return val ? val : code;
+//}
 function getOptionValue(opt) {
     if (opt == undefined || opt == null || opt.name == undefined || opt.name == null)
         return '';
     return opt.name;
 }
-function getScoreMethod(opt) {
-    if (opt == 0) return localizationResources.Automation;
-    return opt == 1 ? localizationResources.Manual : "";
-}
-function updateFail(request, status, error) {
-    swal("Error!", localizationResources.SaveFail, "error");
-}
+//function getScoreMethod(opt) {
+//    if (opt == 0) return "Tự động";
+//    return opt == 1 ? localizationResources.Manual : "";
+//}
+//function updateFail(request, status, error) {
+//    swal("Error!", localizationResources.SaveFail, "error");
+//}
 function getCode(obj) {
     return typeof (obj) != 'object' || obj == undefined || obj == null || obj == '' ? '' : obj.code;
 }
 function getName(obj) {
     return typeof (obj) != 'object' || obj == undefined || obj == null || obj == '' ? '' : obj.name;
 }
-function getIssueLevel(val) {
-    return val == 1 ? localizationResources.Low : val == 2 ? localizationResources.Mid : val == 3 ? localizationResources.High : '';
-}
-function getIssueRange(min, max, minF, maxF) {
+//function getIssueLevel(val) {
+//    return val == 1 ? localizationResources.Low : val == 2 ? localizationResources.Mid : val == 3 ? localizationResources.High : '';
+//}
+//function getIssueRange(min, max, minF, maxF) {
 
-    var minStr = '';
-    switch (minF) {
-        case 'gte': minStr = '<=';
-            break;
-        case 'gt': minStr = '<';
-            break;
-        default: minStr = '';
-            break;
-    }
-    var maxStr = '';
-    switch (maxF) {
-        case 'lte': maxStr = '<=';
-            break;
-        case 'lt': maxStr = '<';
-            break;
-        default: maxStr = '';
-            break;
-    }
+//    var minStr = '';
+//    switch (minF) {
+//        case 'gte': minStr = '<=';
+//            break;
+//        case 'gt': minStr = '<';
+//            break;
+//        default: minStr = '';
+//            break;
+//    }
+//    var maxStr = '';
+//    switch (maxF) {
+//        case 'lte': maxStr = '<=';
+//            break;
+//        case 'lt': maxStr = '<';
+//            break;
+//        default: maxStr = '';
+//            break;
+//    }
 
-    if (minStr == '' && maxStr == '')
-        return '';
+//    if (minStr == '' && maxStr == '')
+//        return '';
 
-    return (minStr != '' ? (min + ' ' + minStr + ' ') : '') + localizationResources.Point + (maxStr != '' ? (' ' + maxStr + ' ' + max) : '');
-}
+//    return (minStr != '' ? (min + ' ' + minStr + ' ') : '') + localizationResources.Point + (maxStr != '' ? (' ' + maxStr + ' ' + max) : '');
+//}
 function checkNumberValue(ele, compareWith, formula) {
     if (!ele || ele.type != 'number')
         return;
@@ -281,20 +281,20 @@ function checkNumberValue(ele, compareWith, formula) {
     var max = parseFloat(ele.max);
     if (ele.min) {
         if (vl < min) {
-            swal('Error', localizationResources.ValueInvalid, 'error');
+            swal('Error', "Không hợp lệ", 'error');
             ele.value = min;
             return;
         }
     }
     if (ele.max) {
         if (vl > max) {
-            swal('Error', localizationResources.ValueInvalid, 'error');
+            swal('Error', "Không hợp lệ", 'error');
             ele.value = max;
             return;
         }
     }
     if (ele.max && ele.min && (vl > max || vl < min)) {
-        swal('Error', localizationResources.ValueInvalid, 'error');
+        swal('Error', "Không hợp lệ", 'error');
         ele.value = '';
         return;
     }
@@ -303,12 +303,12 @@ function checkNumberValue(ele, compareWith, formula) {
         var cp = parseFloat(compareValue);
         if (compareValue && !isNaN(cp)) {
             if (formula == 'gt' && vl < cp) {
-                swal('Error', localizationResources.ValueInvalid, 'error');
+                swal('Error', "Không hợp lệ", 'error');
                 ele.value = '';
                 return;
             }
             if (formula == 'lt' && vl > cp) {
-                swal('Error', localizationResources.ValueInvalid, 'error');
+                swal('Error', "Không hợp lệ", 'error');
                 ele.value = '';
                 return;
             }
@@ -324,41 +324,41 @@ function IsCheckPemission(menucode, permission_code) {
     }
     return false;
 }
-function getAssessmentStage(val) {
-    return val == 1 ? localizationResources.Year : val == 2 ? localizationResources.HalfYear : val == 3 ? localizationResources.Quarter : '';
-}
-function getAssessmentState(val) {
-    return !val || val == 0 ? localizationResources.InProcess : localizationResources.Completed;
-}
-function getProcessState(val) {
-    return val == -1 || val == null || val == undefined ? localizationResources.NotStart : val == 0 ? localizationResources.InProcess : localizationResources.Completed;
-}
-function getAssessmentPullState(val) {
-    return localizationResources.InComplete;
-}
+//function getAssessmentStage(val) {
+//    return val == 1 ? localizationResources.Year : val == 2 ? localizationResources.HalfYear : val == 3 ? localizationResources.Quarter : '';
+//}
+//function getAssessmentState(val) {
+//    return !val || val == 0 ? localizationResources.InProcess : localizationResources.Completed;
+//}
+//function getProcessState(val) {
+//    return val == -1 || val == null || val == undefined ? localizationResources.NotStart : val == 0 ? localizationResources.InProcess : localizationResources.Completed;
+//}
+//function getAssessmentPullState(val) {
+//    return localizationResources.InComplete;
+//}
 function getAssessmentPullLast(val) {
     return '';
 }
 
-function getImportStatus(code) {
-    code = (code + '').trim();
-    if (!code || code == null || code == '')
-        return '';
-    var val = localizationResources['Import' + code];
-    return val ? val : code;
-}
-function getImportResult(note) {
-    if (!note || note == null || note == '')
-        return '';
-    var spt = note.split(',');
+//function getImportStatus(code) {
+//    code = (code + '').trim();
+//    if (!code || code == null || code == '')
+//        return '';
+//    var val = localizationResources['Import' + code];
+//    return val ? val : code;
+//}
+//function getImportResult(note) {
+//    if (!note || note == null || note == '')
+//        return '';
+//    var spt = note.split(',');
 
-    var str = '';
-    for (var i = 0; i < spt.length; i++) {
-        var code = spt[i].trim();
-        str += getImportStatus(code) + '<br/>';
-    }
-    return str;
-}
+//    var str = '';
+//    for (var i = 0; i < spt.length; i++) {
+//        var code = spt[i].trim();
+//        str += getImportStatus(code) + '<br/>';
+//    }
+//    return str;
+//}
 
 
 function ResetPageSize() {

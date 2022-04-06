@@ -34,7 +34,7 @@
                                     Tên chi nhánh
                                 </label>
                                 <div class="col-lg-9">
-                                    <input type="text" class="form-control" placeholder="Tên chi nhánh" id="Description" name="Description" onchange="onSearch()">
+                                    <input type="text" class="form-control" placeholder="Tên chi nhánh" id="Description" name="Description">
                                 </div>
                             </div>
                         </div>
@@ -44,7 +44,7 @@
                                     Phòng ban
                                 </label>
                                 <div class="col-lg-9">
-                                    <input type="text" class="form-control" placeholder="Phòng ban" id="Department" name="Department" onchange="onSearch()">
+                                    <input type="text" class="form-control" placeholder="Phòng ban" id="Department" name="Department">
                                 </div>
                             </div>
                         </div>
@@ -54,27 +54,27 @@
                                     Họ tên nhân viên
                                 </label>
                                 <div class="col-lg-8">
-                                    <input type="text" class="form-control" placeholder="Họ tên nhân viên" id="Name" name="Name" onchange="onSearch()">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <div class="form-group row">
-                                <label class="col-form-label col-lg-3" for="ToDate">
-                                    Từ ngày
-                                </label>
-                                <div class="col-lg-9">
-                                    <input type="date" class="form-control" id="ToDate" name="ToDate" onchange="onSearch()">
+                                    <input type="text" class="form-control" placeholder="Họ tên nhân viên" id="Name" name="Name">
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-4 mb-3">
                             <div class="form-group row">
                                 <label class="col-form-label col-lg-3" for="FromDate">
+                                    Từ ngày
+                                </label>
+                                <div class="col-lg-9">
+                                    <input type="date" class="form-control" id="FromDate" name="FromDate">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="form-group row">
+                                <label class="col-form-label col-lg-3" for="ToDate">
                                     Đến ngày
                                 </label>
                                 <div class="col-lg-9">
-                                    <input type="date" class="form-control" id="FromDate" name="FromDate" onchange="onSearch()">
+                                    <input type="date" class="form-control" id="ToDate" name="ToDate">
                                 </div>
                             </div>
                         </div>
@@ -173,7 +173,8 @@
     <script src="~/js/host.js" asp-append-version="true"></script>
     <script src="~/js/api.construct.js" asp-append-version="true"></script>
     <script src="~/js/constant.js" asp-append-version="true"></script>
+    <script src="~/js/common.js" asp-append-version="true"></script>
     <script src="~/js/Report.js" type="text/javascript" asp-append-version="true"></script>
-    <script src="~/js/common.js"></script>
-    <script src="~/datatables.net/jquery.dataTables.js"></script>
+    @*<script src="~/plugins/sweetalert/sweetalert.min.js"></script>*@
+    <script src="~/datatables.net/jquery.dataTables.js" asp-append-version="true"></script>
 }

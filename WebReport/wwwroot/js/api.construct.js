@@ -29,21 +29,21 @@
 ////        hideLoading();
 ////    });
 ////})
-function showLoading() {
-    $('#preloader').css('display', 'block');
-}
-function hideLoading() {
-    setTimeout(function () {
-        var keys = Object.keys(localStorage);
-        var isOk = true;
-        for (var i = 0; i < keys.length; i++) {
-            if (keys[i].startsWith('loading'))
-                isOk = false;
-        }
-        if (isOk)
-            $('#preloader').css('display', 'none');
-    }, 500);
-}
+//function showLoading() {
+//    $('#preloader').css('display', 'block');
+//}
+//function hideLoading() {
+//    setTimeout(function () {
+//        var keys = Object.keys(localStorage);
+//        var isOk = true;
+//        for (var i = 0; i < keys.length; i++) {
+//            if (keys[i].startsWith('loading'))
+//                isOk = false;
+//        }
+//        if (isOk)
+//            $('#preloader').css('display', 'none');
+//    }, 500);
+//}
 function getSessionToken() {
     if (sessionStorage['SessionToken'] != undefined)
         return 'Bearer ' + sessionStorage['SessionToken'];

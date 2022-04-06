@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using OfficeOpenXml;
@@ -24,12 +25,17 @@ namespace WebReport.Controllers
         private readonly MyDbContext _dbContext;
         protected readonly IUnitOfWork _uow;
         protected readonly IConfiguration _config;
-
-        public ReportController(MyDbContext dbContext, IUnitOfWork uow, IConfiguration config)
+        public readonly string _contentFolder;
+        public readonly string _contentFolderDetail;
+        public const string CONTEN_FOLDER_NAME = "ReportFile.xlsx";
+        public const string CONTEN_FOLDER_NAME_DETAIL = "ReportFileDetail.xlsx";
+        public ReportController(MyDbContext dbContext, IUnitOfWork uow, IConfiguration config, IWebHostEnvironment webHostEnvironment)
         {
             _dbContext = dbContext;
             _uow = uow;
             _config = config;
+            _contentFolder = Path.Combine(webHostEnvironment.WebRootPath, CONTEN_FOLDER_NAME);
+            _contentFolderDetail = Path.Combine(webHostEnvironment.WebRootPath, CONTEN_FOLDER_NAME_DETAIL);
         }
         public IActionResult Index()
         {
@@ -45,8 +51,8 @@ namespace WebReport.Controllers
                 var obj = JsonSerializer.Deserialize<RepostSearchModel>(jsonData);
                 Expression<Func<Event, bool>> filter = c => (string.IsNullOrEmpty(obj.name) || c.real_name.ToLower().Contains(obj.name.ToLower()))
                                                     && (string.IsNullOrEmpty(obj.department) || c.Subject.department.ToLower().Contains(obj.department.ToLower()))
-                                                    && ((obj.todate == null) || c.timestamp >= obj.todate)
-                                                    && ((obj.fromdate == null) || c.timestamp <= obj.fromdate)
+                                                    && ((obj.todate == null) || c.timestamp <= obj.todate)
+                                                    && ((obj.fromdate == null) || c.timestamp >= obj.fromdate)
                                                     && (string.IsNullOrEmpty(obj.description) || c.Subject.description.ToLower().Contains(obj.description.ToLower()))
                                                     && (c.fmp_error == 0)
                                                     && (c.pass_type == 1);
@@ -72,7 +78,8 @@ namespace WebReport.Controllers
                     email = a.Subject != null ? a.Subject.email : "",
                     phone = a.Subject != null ? a.Subject.phone : "",
                     timestamp = a.timestamp,
-                    time = _dateTime.AddSeconds((double)a.timestamp).ToLocalTime().ToString("dd/MM/yyy"),
+                    //time = _dateTime.AddSeconds((double)a.timestamp).ToLocalTime().ToString("dd/MM/yyy"),
+                    time = _dateTime.AddSeconds((double)a.timestamp).ToLocalTime().ToString("yyyy-MM-dd"),
                     camera_position = a.camera_position,
                     AttendanceList = a.Subject != null ? a.Subject.Attendance.Select(x => new AttendanceList
                     {
@@ -88,11 +95,13 @@ namespace WebReport.Controllers
                 //    report = report.Skip(obj.StartNumber).Take(obj.PageSize);
                 //}
                 //var x = report.GroupBy(x => new { x.name, x.time }).Select(z => z.FirstOrDefault()).ToList();
-                var x = report.ToList();
+                var Listreport = report.ToList();
                 var arrData = new List<ListData>();
-                for (int i = 0; i < x.Count(); i++)
+                for (int i = 0; i < Listreport.Count(); i++)
                 {
-                    var AttendanceData = _uow.Repository<Attendance>().Include(c => c.Subject).FirstOrDefault(v => v.subject_id == x[i].subject_id && v.date == DateTime.Parse(x[i].time));
+                    var cvDate = DateTime.Parse(Listreport[i].time);
+                    var AttendanceData = _uow.Repository<Attendance>().Include(c => c.Subject).FirstOrDefault(v => v.subject_id == Listreport[i].subject_id && v.date == cvDate);
+                    //var AttendanceData = _uow.Repository<Attendance>().Include(c => c.Subject).FirstOrDefault(v => v.subject_id == Listreport[i].subject_id && v.date == DateTime.Parse(Listreport[i].time));
                     if (AttendanceData != null)
                     {
                         var EventData = _uow.Repository<Event>().Include(c => c.Subject).FirstOrDefault(v => v.id == AttendanceData.earliest_record);
@@ -119,7 +128,7 @@ namespace WebReport.Controllers
                         arrData.Add(RepostData1);
                     }
                 }
-                var xxxx = arrData.Select(z => new ListData()
+                var dataNew = arrData.Select(z => new ListData()
                 {
                     id = z.id,
                     subject_id = z.subject_id,
@@ -140,9 +149,9 @@ namespace WebReport.Controllers
                 });
                 if (obj.StartNumber >= 0 && obj.PageSize > 0)
                 {
-                    xxxx = xxxx.Skip(obj.StartNumber).Take(obj.PageSize);
+                    dataNew = dataNew.Skip(obj.StartNumber).Take(obj.PageSize);
                 }
-                return Ok(new { code = "1", msg = "success", data = xxxx, total = xxxx.Count() });
+                return Ok(new { code = "1", msg = "success", data = dataNew, total = dataNew.Count() });
                 //return Ok(new { code = "1", msg = "success", data = x, total = x.Count() }); ;
             }
             catch (Exception ex)
@@ -164,8 +173,8 @@ namespace WebReport.Controllers
                 var obj = JsonSerializer.Deserialize<RepostSearchModel>(jsonData);
                 Expression<Func<Event, bool>> filter = c => (string.IsNullOrEmpty(obj.name) || c.real_name.ToLower().Contains(obj.name.ToLower()))
                                                     && (string.IsNullOrEmpty(obj.department) || c.Subject.department.ToLower().Contains(obj.department.ToLower()))
-                                                    && ((obj.todate == null) || c.timestamp >= obj.todate)
-                                                    && ((obj.fromdate == null) || c.timestamp <= obj.fromdate)
+                                                    && ((obj.todate == null) || c.timestamp <= obj.todate)
+                                                    && ((obj.fromdate == null) || c.timestamp >= obj.fromdate)
                                                     && (string.IsNullOrEmpty(obj.description) || c.Subject.description.ToLower().Contains(obj.description.ToLower()))
                                                     && (c.fmp_error == 0)
                                                     && (c.pass_type == 1);
@@ -176,7 +185,18 @@ namespace WebReport.Controllers
                 var count = dt.Count();
                 if (count == 0)
                 {
-                    return Ok(new { code = "1", msg = "success", data = "", total = count });
+                    //return Ok(new { code = "1", msg = "success", data = "", total = count });
+                    var tem = new FileInfo($"{_contentFolder}");
+                    ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+                    ExcelPackage excelPk;
+                    byte[] Bt = null;
+                    var mrStream = new MemoryStream();
+                    using (excelPk = new ExcelPackage(tem, false))
+                    {
+                        var worksheet = excelPk.Workbook.Worksheets["Sheet1"];
+                        Bt = excelPk.GetAsByteArray();
+                    }
+                        return File(Bt, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "ReportFile.xlsx");
                 }
                 DateTime _dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
                 var report = dt.Select(a => new RepostModel()
@@ -191,7 +211,8 @@ namespace WebReport.Controllers
                     email = a.Subject != null ? a.Subject.email : "",
                     phone = a.Subject != null ? a.Subject.phone : "",
                     timestamp = a.timestamp,
-                    time = _dateTime.AddSeconds((double)a.timestamp).ToLocalTime().ToString("dd/MM/yyy"),
+                    //time = _dateTime.AddSeconds((double)a.timestamp).ToLocalTime().ToString("dd/MM/yyy"),
+                    time = _dateTime.AddSeconds((double)a.timestamp).ToLocalTime().ToString("yyyy-MM-dd"),
                     camera_position = a.camera_position,
                     AttendanceList = a.Subject != null ? a.Subject.Attendance.Select(x => new AttendanceList
                     {
@@ -206,11 +227,13 @@ namespace WebReport.Controllers
                 {
                     report = report.Skip(obj.StartNumber).Take(obj.PageSize);
                 }
-                var x = report.ToList();
+                var Listreport = report.ToList();
                 var arrData = new List<ListData>();
-                for (int i = 0; i < x.Count(); i++)
+                for (int i = 0; i < Listreport.Count(); i++)
                 {
-                    var AttendanceData = _uow.Repository<Attendance>().Include(c => c.Subject).FirstOrDefault(v => v.subject_id == x[i].subject_id && v.date == DateTime.Parse(x[i].time));
+                    var cvDate = DateTime.Parse(Listreport[i].time);
+                    var AttendanceData = _uow.Repository<Attendance>().Include(c => c.Subject).FirstOrDefault(v => v.subject_id == Listreport[i].subject_id && v.date == cvDate);
+                    //var AttendanceData = _uow.Repository<Attendance>().Include(c => c.Subject).FirstOrDefault(v => v.subject_id == x[i].subject_id && v.date == DateTime.Parse(x[i].time));
                     if (AttendanceData != null)
                     {
                         var EventData = _uow.Repository<Event>().Include(c => c.Subject).FirstOrDefault(v => v.id == AttendanceData.earliest_record);
@@ -246,7 +269,10 @@ namespace WebReport.Controllers
                 //fullPath = fullPath.ToString().Replace("\\", "/");
                 //var template = new FileInfo(fullPath);
 
-                var template = new FileInfo(@"D:\test\ReportFile.xlsx");
+                //var template = new FileInfo(@"D:\test\ReportFile.xlsx");
+                var template = new FileInfo($"{_contentFolder}");
+                //fullPath = fullPath.ToString().Replace("\\", "/");
+                //var template = new FileInfo(fullPath);
 
                 ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
                 ExcelPackage excelPackage;
@@ -335,7 +361,7 @@ namespace WebReport.Controllers
                 }
                 return File(Bytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "ReportFile.xlsx");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return BadRequest();
             }
@@ -375,7 +401,8 @@ namespace WebReport.Controllers
                     email = a.Subject != null ? a.Subject.email : "",
                     phone = a.Subject != null ? a.Subject.phone : "",
                     timestamp = a.timestamp,
-                    time = _dateTime.AddSeconds((double)a.timestamp).ToLocalTime().ToString("dd/MM/yyy"),
+                    time = _dateTime.AddSeconds((double)a.timestamp).ToLocalTime().ToString("yyyy-MM-dd"),
+                    //time = _dateTime.AddSeconds((double)a.timestamp).ToLocalTime().ToString("dd/MM/yyy"),
                     timeaccuracy = _dateTime.AddSeconds((double)a.timestamp).ToLocalTime().ToString("HH:mm"),
                     camera_position = a.camera_position,
                     AttendanceList = a.Subject != null ? a.Subject.Attendance.Select(x => new AttendanceList
@@ -456,7 +483,17 @@ namespace WebReport.Controllers
                 var count = dt.Count();
                 if (count == 0)
                 {
-                    return Ok(new { code = "1", msg = "success", data = "", total = count });
+                    var tem = new FileInfo($"{_contentFolderDetail}");
+                    ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+                    ExcelPackage excelPk;
+                    byte[] Bt = null;
+                    var mrStream = new MemoryStream();
+                    using (excelPk = new ExcelPackage(tem, false))
+                    {
+                        var worksheet = excelPk.Workbook.Worksheets["Sheet1"];
+                        Bt = excelPk.GetAsByteArray();
+                    }
+                    return File(Bt, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "ReportFileDetail.xlsx");
                 }
                 //if (obj.StartNumber >= 0 && obj.PageSize > 0)
                 //{
@@ -475,7 +512,8 @@ namespace WebReport.Controllers
                     email = a.Subject != null ? a.Subject.email : "",
                     phone = a.Subject != null ? a.Subject.phone : "",
                     timestamp = a.timestamp,
-                    time = _dateTime.AddSeconds((double)a.timestamp).ToLocalTime().ToString("dd/MM/yyy"),
+                    time = _dateTime.AddSeconds((double)a.timestamp).ToLocalTime().ToString("yyyy-MM-dd"),
+                    //time = _dateTime.AddSeconds((double)a.timestamp).ToLocalTime().ToString("dd/MM/yyy"),
                     timeaccuracy = _dateTime.AddSeconds((double)a.timestamp).ToLocalTime().ToString("HH:mm"),
                     camera_position = a.camera_position,
                     AttendanceList = a.Subject != null ? a.Subject.Attendance.Select(x => new AttendanceList
@@ -534,7 +572,8 @@ namespace WebReport.Controllers
                 //fullPath = fullPath.ToString().Replace("\\", "/");
                 //var template = new FileInfo(fullPath);
 
-                var template = new FileInfo(@"D:\test\ReportFileDetail.xlsx");
+                //var template = new FileInfo(@"D:\test\ReportFileDetail.xlsx");
+                var template = new FileInfo($"{_contentFolderDetail}");
 
                 ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
                 ExcelPackage excelPackage;

@@ -7,9 +7,20 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <link href="~/font-awesome/css/all.css" rel="stylesheet" />
-    <script src="./plugins/sweetalert/js/sweetalert.min.js"></script>
+    <link href="~/css/styleswith.css" rel="stylesheet" />
+    <script src="~/plugins/sweetalert/sweetalert.min.js" asp-append-version="true"></script>
+    <script src="~/js/host.js" asp-append-version="true"></script>
 </head>
 <body>
+    <div id="preloader" style="display: none; z-index: 1; position: absolute; margin: 27% 20% 0% 50%; ">
+        <div class="spinner-border" role="status">
+        </div>
+    </div>
+    <div class="report">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
     @*<header>
             <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
                 <div class="container">
@@ -32,21 +43,17 @@
             </nav>
         </header>
         <div class="container">*@
-    <div class="report">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+
 
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2022 - WebReport - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js" asp-append-version="true"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="./plugins/sweetalert/js/sweetalert.min.js"></script>
+    <script src="~/plugins/sweetalert/sweetalert.min.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

@@ -12,6 +12,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\plugins\magnific-popup\js\jquery.magnific-popup.min.js" />
+    <None Include="wwwroot\ReportFile.xlsx" />
+    <None Include="wwwroot\ReportFileDetail.xlsx" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="EPPlus" Version="5.8.8" />
     <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="5.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.15" />
