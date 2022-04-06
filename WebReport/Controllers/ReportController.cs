@@ -101,7 +101,7 @@ namespace WebReport.Controllers
                 {
                     var cvDate = DateTime.Parse(Listreport[i].time);
                     var AttendanceData = _uow.Repository<Attendance>().Include(c => c.Subject).FirstOrDefault(v => v.subject_id == Listreport[i].subject_id && v.date == cvDate);
-                    //var AttendanceData = _uow.Repository<Attendance>().Include(c => c.Subject).FirstOrDefault(v => v.subject_id == Listreport[i].subject_id && v.date == DateTime.Parse(Listreport[i].time));
+
                     if (AttendanceData != null)
                     {
                         var EventData = _uow.Repository<Event>().Include(c => c.Subject).FirstOrDefault(v => v.id == AttendanceData.earliest_record);

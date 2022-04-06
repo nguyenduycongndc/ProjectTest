@@ -243,7 +243,7 @@ function onSearchDetail() {
     showLoading();
 }
 function fnSearchSuccessDetail(rspn) {
-    //showLoading();
+    showLoading();
     var tbBody = $('#reportTableDetail tbody');
     $("#reportTableDetail").dataTable().fnDestroy();
     tbBody.html('');
